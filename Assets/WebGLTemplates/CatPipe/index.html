@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+  <title>{{{ PRODUCT_NAME }}}</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #3a2414; overflow: hidden; }
+    /* portrait 9:16 canvas, as large as the window allows, centered */
+    #unity-canvas {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      height: 100vh; width: calc(100vh * 9 / 16); max-width: 100vw; max-height: calc(100vw * 16 / 9);
+      background: #3a2414; touch-action: none;
+    }
+    #loading { position: absolute; left: 0; right: 0; top: 50%; text-align: center; color: #fde7c6; font: bold 20px sans-serif; }
+  </style>
+</head>
+<body>
+  <canvas id="unity-canvas" tabindex="-1"></canvas>
+  <div id="loading"><span id="pct">0</span>%</div>
+  <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+  <script>
+    createUnityInstance(document.querySelector("#unity-canvas"), {
+      dataUrl: "Build/{{{ DATA_FILENAME }}}",
+      frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+      codeUrl: "Build/{{{ CODE_FILENAME }}}",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+      productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+    }, p => document.getElementById("pct").textContent = Math.round(p * 100))
+      .then(() => document.getElementById("loading").remove())
+      .catch(m => alert(m));
+  </script>
+</body>
+</html>

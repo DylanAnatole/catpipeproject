@@ -1,0 +1,26 @@
+mechanic curtain.png
+size:3728,348
+filter:Linear,Linear
+Rectangle shadow
+bounds:3522,140,205,204
+rotate:90
+cam
+bounds:2,2,350,343
+curtain do
+bounds:354,2,350,343
+curtain hong
+bounds:706,2,350,343
+curtain tim
+bounds:1058,2,350,343
+curtain trang
+bounds:1410,2,350,343
+curtain vang
+bounds:1762,2,350,343
+curtain xanh la cay
+bounds:2114,2,350,343
+curtain xanh ngoc
+bounds:2466,2,350,343
+curtain xanh non chuoi
+bounds:2818,2,350,343
+curtain xanh nuoc bien
+bounds:3170,2,350,343

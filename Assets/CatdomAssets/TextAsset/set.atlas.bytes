@@ -1,0 +1,12 @@
+set.png
+size:300,132
+filter:Linear,Linear
+scale:0.6
+set_1
+bounds:0,2,120,127
+set_pivot
+bounds:224,53,75,76
+set_shadow1
+bounds:224,0,52,52
+set_shadow2
+bounds:121,22,102,107

@@ -1,0 +1,52 @@
+Lavaquest_icon.png
+size:808,1028
+filter:Linear,Linear
+pma:true
+10 000
+bounds:722,747,277,75
+rotate:90
+Layer 1
+bounds:2,2,197,198
+Layer 10
+bounds:570,419,177,197
+rotate:90
+Layer 11
+bounds:201,3,196,197
+Layer 12
+bounds:494,598,203,197
+Layer 2
+bounds:2,202,203,198
+Layer 3
+bounds:207,202,196,198
+Layer 4
+bounds:405,216,177,198
+Layer 5
+bounds:371,416,146,197
+offsets:0,0,146,198
+rotate:90
+Layer 6
+bounds:399,3,107,197
+offsets:0,0,107,198
+Layer 7
+bounds:732,220,71,197
+offsets:0,0,71,198
+Layer 8
+bounds:508,17,107,197
+offsets:0,0,107,198
+Layer 9
+bounds:584,220,146,197
+cotdoc1
+bounds:617,19,56,149
+rotate:90
+flag_staff
+bounds:699,622,107,123
+glow
+bounds:494,797,226,227
+offsets:16,14,256,256
+red_flag
+bounds:2,564,490,460
+vang1
+bounds:617,77,143,141
+offsets:1,1,146,142
+wipe_out
+bounds:2,402,367,160

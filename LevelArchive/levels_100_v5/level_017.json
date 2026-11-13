@@ -1,0 +1,61 @@
+{
+ "name": "Màn 17",
+ "w": 5,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "2,3",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "0,1",
+   "cells": "2,1 2,0 1,0 0,0",
+   "lock": true
+  },
+  {
+   "at": "0,3",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "0,2",
+   "cells": "0,0",
+   "paths": "SW",
+   "key": true
+  }
+ ],
+ "cats": [
+  {
+   "side": "B",
+   "index": 2,
+   "color": 4
+  },
+  {
+   "side": "B",
+   "index": 0,
+   "color": 6
+  }
+ ],
+ "nests": [
+  {
+   "side": "L",
+   "index": 1,
+   "color": 4
+  },
+  {
+   "side": "L",
+   "index": 2,
+   "color": 6
+  }
+ ],
+ "tutorial": true,
+ "hint": "Chìa và khóa",
+ "hintIcon": "key",
+ "introIcon": "key",
+ "introTitle": "Chìa và khóa",
+ "introText": "Mèo đi qua chìa thì ổ khóa mở ra.",
+ "start": "0,0 2,0 1,0 3,4",
+ "solution": "0:0,3 2:2,3 3:0,2 1:0,1",
+ "time": 90,
+ "par": 6,
+ "parTime": 50
+}

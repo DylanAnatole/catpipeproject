@@ -1,0 +1,657 @@
+﻿{
+  "default": {
+    "non_consum": [
+      {
+        "id": "removeads",
+        "pkg": "com.cat.drop.color.hole.puzzle.remove_ads",
+        "price": "7.99$",
+        "receiver": {
+          "removeads": 1
+        }
+      }
+    ],
+    "sub": [],
+    "consum": [
+      {
+        "id": "gold_pack1",
+        "pkg": "com.cat.drop.color.hole.puzzle.gold_pack1",
+        "price": "1.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "gold_pack2",
+        "pkg": "com.cat.drop.color.hole.puzzle.gold_pack2",
+        "price": "7.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "gold_pack3",
+        "pkg": "com.cat.drop.color.hole.puzzle.gold_pack3",
+        "price": "14.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "gold_pack4",
+        "pkg": "com.cat.drop.color.hole.puzzle.gold_pack4",
+        "price": "29.99$",
+        "receiver": {
+          "removeads": 1
+        }
+      },
+      {
+        "id": "gold_pack5",
+        "pkg": "com.cat.drop.color.hole.puzzle.gold_pack5",
+        "price": "54.99$",
+        "receiver": {
+          "removeads": 1
+        }
+      },
+      {
+        "id": "gold_pack6",
+        "pkg": "com.cat.drop.color.hole.puzzle.gold_pack6",
+        "price": "99.99$",
+        "receiver": {
+          "removeads": 1
+        }
+      },
+      {
+        "id": "starter_pack",
+        "pkg": "com.cat.drop.color.hole.puzzle.starter_pack",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "cute_bundle",
+        "pkg": "com.cat.drop.color.hole.puzzle.cute_bundle",
+        "price": "19.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "lovely_bundle",
+        "pkg": "com.cat.drop.color.hole.puzzle.lovely_bundle",
+        "price": "29.99$",
+        "receiver": {
+          "removeads": 1
+        }
+      },
+      {
+        "id": "revive_pack1",
+        "pkg": "com.cat.drop.color.hole.puzzle.revive_pack1",
+        "price": "3.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "revive_pack2",
+        "pkg": "com.cat.drop.color.hole.puzzle.revive_pack21",
+        "price": "7.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "revive_pack3",
+        "pkg": "com.cat.drop.color.hole.puzzle.revive_pack3",
+        "price": "14.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "no_ads_pack",
+        "pkg": "com.cat.drop.color.hole.puzzle.no_ads_pack",
+        "price": "9.99$",
+        "receiver": {
+          "removeads": 1
+        }
+      },
+      {
+        "id": "special_bundle",
+        "pkg": "com.cat.drop.color.hole.puzzle.special_bundle",
+        "price": "3.59$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "premium_battle_pass",
+        "pkg": "com.drop.cat.color.hole.puzzle.battle_pass",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "happy_pack",
+        "pkg": "com.cat.drop.color.hole.puzzle.happy_pack",
+        "price": "4.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "weekend_pack1",
+        "pkg": "com.cat.drop.color.hole.puzzle.weekend_pack1",
+        "price": "2.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "weekend_pack2",
+        "pkg": "com.cat.drop.color.hole.puzzle.weekend_pack2",
+        "price": "5.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "weekend_pack3",
+        "pkg": "com.cat.drop.color.hole.puzzle.weekend_pack3",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "weekend_bundle",
+        "pkg": "com.cat.drop.color.hole.puzzle.weekend_bundle",
+        "price": "14.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "heart_mini_pack",
+        "pkg": "com.cat.drop.color.hole.heart_mini_pack",
+        "price": "4.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill1_1",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill1_1",
+        "price": "1.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill1_2",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill1_2",
+        "price": "3.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill1_3",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill1_3",
+        "price": "5.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill2_1",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill2_1",
+        "price": "3.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill2_2",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill2_2",
+        "price": "7.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill2_3",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill2_3",
+        "price": "12.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill3_1",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill3_1",
+        "price": "5.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill3_2",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill3_2",
+        "price": "14.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill3_3",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill3_3",
+        "price": "24.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill_bundle1",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill_bundle1",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill_bundle2",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill_bundle2",
+        "price": "19.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "freeze_time_refill_bundle3",
+        "pkg": "com.cat.drop.color.hole.freeze_time_refill_bundle3",
+        "price": "39.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill1_1",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill1_1",
+        "price": "1.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill1_2",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill1_2",
+        "price": "3.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill1_3",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill1_3",
+        "price": "5.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill2_1",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill2_1",
+        "price": "3.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill2_2",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill2_2",
+        "price": "7.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill2_3",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill2_3",
+        "price": "12.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill3_1",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill3_1",
+        "price": "5.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill3_2",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill3_2",
+        "price": "14.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill3_3",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill3_3",
+        "price": "24.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill_bundle1",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill_bundle1",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill_bundle2",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill_bundle2",
+        "price": "19.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "select_cat_refill_bundle3",
+        "pkg": "com.cat.drop.color.hole.select_cat_refill_bundle3",
+        "price": "39.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill1_1",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill1_1",
+        "price": "3.49$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill1_2",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill1_2",
+        "price": "5.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill1_3",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill1_3",
+        "price": "7.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill2_1",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill2_1",
+        "price": "5.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill2_2",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill2_2",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill2_3",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill2_3",
+        "price": "16.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill3_1",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill3_1",
+        "price": "8.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill3_2",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill3_2",
+        "price": "19.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill3_3",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill3_3",
+        "price": "29.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill_bundle1",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill_bundle1",
+        "price": "12.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill_bundle2",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill_bundle2",
+        "price": "22.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "remove_hole_refill_bundle3",
+        "pkg": "com.cat.drop.color.hole.remove_hole_refill_bundle3",
+        "price": "44.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "hard_level_pack",
+        "pkg": "com.cat.drop.color.hole.puzzle.hard_level_pack",
+        "price": "6.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "infinite_time_pack1",
+        "pkg": "com.cat.drop.color.hole.puzzle.infinite_time_pack1",
+        "price": "7.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "infinite_time_pack2",
+        "pkg": "com.cat.drop.color.hole.puzzle.infinite_time_pack2",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "infinite_time_pack3",
+        "pkg": "com.cat.drop.color.hole.puzzle.infinite_time_pack3",
+        "price": "19.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "infinite_time_pack4",
+        "pkg": "com.cat.drop.color.hole.puzzle.infinite_time_pack4",
+        "price": "29.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "infinite_time_pack5",
+        "pkg": "com.cat.drop.color.hole.puzzle.infinite_time_pack5",
+        "price": "59.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "infinite_time_pack6",
+        "pkg": "com.cat.drop.color.hole.puzzle.infinite_time_pack6",
+        "price": "99.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "piggy_bank",
+        "pkg": "com.cat.drop.color.hole.puzzle.piggy_bank",
+        "price": "1.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "no_ads_pack_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.no_ads_pack_b",
+        "price": "9.99$",
+        "receiver": {
+          "removeads": 1
+        }
+      },
+      {
+        "id": "cute_bundle_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.cute_bundle_b",
+        "price": "19.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "happy_pack_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.happy_pack_b",
+        "price": "4.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "hard_level_pack_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.hard_level_pack_b",
+        "price": "6.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "heart_mini_pack_b",
+        "pkg": "com.cat.drop.color.hole.heart_mini_pack_b",
+        "price": "4.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "lovely_bundle_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.lovely_bundle_b",
+        "price": "29.99$",
+        "receiver": {
+          "removeads": 1
+        }
+      },
+      {
+        "id": "revive_pack1_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.revive_pack1_b",
+        "price": "3.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "revive_pack2_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.revive_pack21_b",
+        "price": "7.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "revive_pack3_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.revive_pack3_b",
+        "price": "14.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "special_bundle_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.special_bundle_b",
+        "price": "3.59$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "starter_pack_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.starter_pack_b",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "weekend_pack1_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.weekend_pack1_b",
+        "price": "2.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "weekend_pack2_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.weekend_pack2_b",
+        "price": "5.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "weekend_pack3_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.weekend_pack3_b",
+        "price": "9.99$",
+        "receiver": {
+          "items": ""
+        }
+      },
+      {
+        "id": "weekend_bundle_b",
+        "pkg": "com.cat.drop.color.hole.puzzle.weekend_bundle_b",
+        "price": "14.99$",
+        "receiver": {
+          "items": ""
+        }
+      }
+    ]
+  }
+}

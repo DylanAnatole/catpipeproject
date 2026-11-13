@@ -1,0 +1,24 @@
+hand_tut.png
+size:936,216
+filter:Linear,Linear
+Ellipse 1
+bounds:639,20,102,104
+offsets:1,1,104,106
+Ellipse 2
+bounds:480,45,166,157
+offsets:1,1,168,159
+rotate:90
+arrowL
+bounds:743,20,95,104
+offsets:1,1,97,107
+arrowR
+bounds:840,21,94,103
+offsets:1,2,97,107
+hand
+bounds:2,2,209,246
+rotate:90
+hand_finger
+bounds:250,23,188,228
+rotate:90
+xuanzhuan
+bounds:639,126,288,85

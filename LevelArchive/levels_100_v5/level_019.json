@@ -1,0 +1,58 @@
+{
+ "name": "Màn 19",
+ "w": 5,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "3,1",
+   "cells": "1,2 1,1 1,0 0,0"
+  },
+  {
+   "at": "0,1",
+   "cells": "2,0 1,0 0,0"
+  },
+  {
+   "at": "3,0",
+   "cells": "0,0",
+   "paths": "NW"
+  },
+  {
+   "at": "0,0",
+   "cells": "2,0 1,0 0,0"
+  }
+ ],
+ "cats": [
+  {
+   "at": "4,4",
+   "color": 1
+  },
+  {
+   "side": "T",
+   "index": 3,
+   "color": 8
+  }
+ ],
+ "nests": [
+  {
+   "side": "L",
+   "index": 1,
+   "color": 1
+  },
+  {
+   "side": "L",
+   "index": 0,
+   "color": 8
+  }
+ ],
+ "tutorial": true,
+ "hint": "Mèo trong ô",
+ "hintIcon": "hole",
+ "introIcon": "hole",
+ "introTitle": "Mèo trong ô",
+ "introText": "Mèo ngồi trong bàn: mở lối cho mèo ra hộp.",
+ "start": "2,2 0,4 4,1 1,0",
+ "solution": "3:0,0 2:3,0 0:3,1 1:0,1",
+ "time": 90,
+ "par": 6,
+ "parTime": 50
+}

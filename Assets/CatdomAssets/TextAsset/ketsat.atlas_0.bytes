@@ -1,0 +1,91 @@
+ketsat.png
+size:900,1544
+filter:Linear,Linear
+scale:0.3
+Layer 1
+bounds:479,3,61,60
+offsets:5,1,69,62
+rotate:90
+Layer 10
+bounds:844,254,54,60
+offsets:8,1,69,62
+Layer 11
+bounds:541,4,60,60
+offsets:5,1,69,62
+Layer 12
+bounds:355,2,62,60
+offsets:4,1,69,62
+rotate:90
+Layer 2
+bounds:417,2,62,60
+offsets:4,1,69,62
+rotate:90
+Layer 3
+bounds:603,16,59,60
+offsets:6,1,69,62
+Layer 4
+bounds:844,192,54,60
+offsets:9,1,69,62
+Layer 5
+bounds:511,1003,44,60
+offsets:14,1,69,62
+rotate:90
+Layer 6
+bounds:540,1146,34,60
+offsets:19,1,69,62
+Layer 7
+bounds:2,19,22,60
+offsets:25,1,69,62
+rotate:90
+Layer 8
+bounds:540,1084,33,60
+offsets:18,1,69,62
+Layer 9
+bounds:449,1002,45,60
+offsets:12,1,69,62
+rotate:90
+back
+bounds:2,765,445,441
+dong_xu_back
+bounds:355,66,342,223
+rotate:90
+dong_xu_front
+bounds:2,1208,578,333
+front
+bounds:449,557,445,441
+ket_1
+bounds:582,1000,299,295
+ket_2
+bounds:2,410,353,365
+rotate:90
+ket_3
+bounds:2,43,351,365
+ket_4
+bounds:582,1297,244,301
+rotate:90
+ket_5
+bounds:580,316,239,299
+rotate:90
+sd
+bounds:580,78,236,262
+rotate:90
+xu1
+bounds:369,437,86,87
+xu2
+bounds:449,1118,89,88
+xu3
+bounds:369,683,80,77
+rotate:90
+xu4
+bounds:449,1049,89,67
+xu5
+bounds:457,475,80,82
+rotate:90
+xu6
+bounds:844,109,81,53
+rotate:90
+xu7
+bounds:369,526,76,67
+xu8
+bounds:369,595,86,76
+rotate:90

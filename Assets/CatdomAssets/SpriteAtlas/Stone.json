@@ -1,0 +1,128 @@
+{
+	"m_CorrespondingSourceObject": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 0 },
+	"m_EditorData": {
+		"m_BindAsDefault": true,
+		"m_CachedData": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 0 },
+		"m_IsAtlasV2": false,
+		"m_Packables": [
+			{ "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 4226389186943137813 },
+			{ "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 560236270071705793 }
+		],
+		"m_PackedSpriteRenderDataKeys": [],
+		"m_PackingSettings": {
+			"m_AllowAlphaSplitting": false,
+			"m_BlockOffset": 1,
+			"m_EnableAlphaDilation": true,
+			"m_EnableRotation": true,
+			"m_EnableTightPacking": true,
+			"m_Padding": 2
+		},
+		"m_PlatformSettings": [],
+		"m_SecondaryTextureSettings": {},
+		"m_TextureSettings": {
+			"m_AnisoLevel": 1,
+			"m_CompressionQuality": 50,
+			"m_CrunchedCompression": false,
+			"m_FilterMode": 1,
+			"m_GenerateMipMaps": false,
+			"m_MaxTextureSize": 2048,
+			"m_Readable": false,
+			"m_SRGB": true,
+			"m_TextureCompression": 0
+		},
+		"m_VariantMultiplier": 1
+	},
+	"m_HideFlags": 0,
+	"m_IsVariant": false,
+	"m_MasterAtlas": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 0 },
+	"m_Name": "Stone",
+	"m_PackedSpriteNamesToIndex": [
+		"Stone_2",
+		"Stone_1"
+	],
+	"m_PackedSprites": [
+		{ "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 4226389186943137813 },
+		{ "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 560236270071705793 }
+	],
+	"m_PrefabAsset": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 0 },
+	"m_PrefabInstance": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 0 },
+	"m_RenderDataMap": [
+		{
+			"Key": {
+				"Key": {
+					"m_Data_0_": 2064001061,
+					"m_Data_1_": 1198273550,
+					"m_Data_2_": 2559791543,
+					"m_Data_3_": 3683167284
+				},
+				"Value": 21300000
+			},
+			"Value": {
+				"m_AlphaTexture": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 0 },
+				"m_AtlasRectOffset": {
+					"m_X": 0,
+					"m_Y": 0
+				},
+				"m_DownscaleMultiplier": 1,
+				"m_SecondaryTextures": [],
+				"m_SettingsRaw": 67,
+				"m_Texture": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": -2258484477476701555 },
+				"m_TextureRect": {
+					"m_Height": 28,
+					"m_Width": 36,
+					"m_X": 0,
+					"m_Y": 0
+				},
+				"m_TextureRectOffset": {
+					"m_X": 0,
+					"m_Y": 0
+				},
+				"m_UvTransform": {
+					"m_W": 14,
+					"m_X": 100,
+					"m_Y": 18,
+					"m_Z": 100
+				}
+			}
+		},
+		{
+			"Key": {
+				"Key": {
+					"m_Data_0_": 2646516712,
+					"m_Data_1_": 1226183582,
+					"m_Data_2_": 336515493,
+					"m_Data_3_": 1532637652
+				},
+				"Value": 21300000
+			},
+			"Value": {
+				"m_AlphaTexture": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": 0 },
+				"m_AtlasRectOffset": {
+					"m_X": 40,
+					"m_Y": 0
+				},
+				"m_DownscaleMultiplier": 1,
+				"m_SecondaryTextures": [],
+				"m_SettingsRaw": 67,
+				"m_Texture": { "m_Collection": "cab-7a04ae65c41abc5360bb855bc12b1813", "m_PathID": -2258484477476701555 },
+				"m_TextureRect": {
+					"m_Height": 36,
+					"m_Width": 28,
+					"m_X": 40,
+					"m_Y": 0
+				},
+				"m_TextureRectOffset": {
+					"m_X": 0,
+					"m_Y": 0
+				},
+				"m_UvTransform": {
+					"m_W": 18,
+					"m_X": 100,
+					"m_Y": 54,
+					"m_Z": 100
+				}
+			}
+		}
+	],
+	"m_Tag": "Stone"
+}

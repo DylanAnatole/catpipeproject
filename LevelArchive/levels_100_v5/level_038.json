@@ -1,0 +1,85 @@
+{
+ "name": "Màn 38",
+ "w": 5,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "2,4",
+   "cells": "0,0",
+   "paths": "ES"
+  },
+  {
+   "at": "3,2",
+   "cells": "0,2 1,2 1,1 1,0"
+  },
+  {
+   "at": "4,1",
+   "cells": "0,0",
+   "paths": "ES"
+  },
+  {
+   "at": "0,3",
+   "cells": "0,0 1,0",
+   "axis": "H"
+  },
+  {
+   "at": "2,2",
+   "cells": "0,1 1,1 1,0"
+  },
+  {
+   "at": "2,0",
+   "cells": "1,1 1,0 0,0"
+  },
+  {
+   "at": "1,0",
+   "cells": "0,0",
+   "paths": "NEW"
+  },
+  {
+   "at": "0,0",
+   "cells": "0,0",
+   "paths": "NEW"
+  }
+ ],
+ "cats": [
+  {
+   "side": "B",
+   "index": 2,
+   "color": 1
+  },
+  {
+   "side": "L",
+   "index": 3,
+   "color": 8
+  },
+  {
+   "side": "T",
+   "index": 1,
+   "color": 4
+  }
+ ],
+ "nests": [
+  {
+   "side": "R",
+   "index": 1,
+   "color": 1
+  },
+  {
+   "side": "T",
+   "index": 0,
+   "color": 8
+  },
+  {
+   "side": "L",
+   "index": 0,
+   "color": 4
+  }
+ ],
+ "hint": "Khóa trục",
+ "hintIcon": "axis_arrow",
+ "start": "0,4 2,2 4,3 1,3 2,0 0,0 0,2 0,1",
+ "solution": "2:4,1 1:3,2 0:2,4 3:0,3 4:2,2 5:2,0 6:1,0 7:0,0",
+ "time": 130,
+ "par": 10,
+ "parTime": 80
+}

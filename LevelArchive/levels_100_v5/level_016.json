@@ -1,0 +1,74 @@
+{
+ "name": "Màn 16",
+ "w": 5,
+ "h": 6,
+ "pieces": [
+  {
+   "at": "4,3",
+   "cells": "0,2 0,1 0,0"
+  },
+  {
+   "at": "4,2",
+   "cells": "0,0",
+   "paths": "ES"
+  },
+  {
+   "at": "0,4",
+   "cells": "0,0 1,0 1,1"
+  },
+  {
+   "at": "0,3",
+   "cells": "0,0 1,0",
+   "ice": 1
+  },
+  {
+   "at": "2,3",
+   "cells": "0,0 1,0 1,1 1,2"
+  },
+  {
+   "at": "0,0",
+   "cells": "0,0 0,1 1,1 0,2"
+  }
+ ],
+ "cats": [
+  {
+   "side": "B",
+   "index": 4,
+   "color": 3
+  },
+  {
+   "side": "L",
+   "index": 4,
+   "color": 5
+  },
+  {
+   "side": "L",
+   "index": 3,
+   "color": 9
+  }
+ ],
+ "nests": [
+  {
+   "side": "R",
+   "index": 2,
+   "color": 3
+  },
+  {
+   "side": "B",
+   "index": 1,
+   "color": 5
+  },
+  {
+   "side": "B",
+   "index": 3,
+   "color": 9
+  }
+ ],
+ "hint": "Khối băng",
+ "hintIcon": "ice",
+ "start": "4,2 3,1 2,3 1,5 1,0 0,1",
+ "solution": "0:4,3 1:4,2 5:0,0 3:0,3 2:0,4 4:2,3",
+ "time": 110,
+ "par": 8,
+ "parTime": 70
+}

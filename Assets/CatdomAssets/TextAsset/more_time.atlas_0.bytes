@@ -1,0 +1,10 @@
+more_time.png
+size:116,80
+filter:Linear,Linear
+time
+bounds:2,8,65,70
+offsets:1,1,67,72
+wingL
+bounds:69,41,44,37
+wingR
+bounds:69,2,44,37

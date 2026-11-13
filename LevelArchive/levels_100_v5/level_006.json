@@ -1,0 +1,59 @@
+{
+ "name": "Màn 6",
+ "w": 4,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "0,0",
+   "cells": "0,0 0,1"
+  },
+  {
+   "at": "0,2",
+   "cells": "0,0 0,1"
+  },
+  {
+   "at": "0,4",
+   "cells": "0,0",
+   "paths": "NESW"
+  },
+  {
+   "at": "1,4",
+   "cells": "0,0 1,0 2,0"
+  }
+ ],
+ "cats": [
+  {
+   "side": "T",
+   "index": 0,
+   "color": 5
+  },
+  {
+   "side": "B",
+   "index": 0,
+   "color": 2
+  }
+ ],
+ "nests": [
+  {
+   "side": "L",
+   "index": 4,
+   "color": 5
+  },
+  {
+   "side": "R",
+   "index": 4,
+   "color": 2
+  }
+ ],
+ "tutorial": true,
+ "hint": "Ngã ba",
+ "hintIcon": "hub_ring",
+ "introIcon": "hub_ring",
+ "introTitle": "Ngã ba",
+ "introText": "Ở ô có vòng tròn, mèo được rẽ sang lối khác.",
+ "start": "1,0 2,0 3,0 0,4",
+ "solution": "0:0,0 3:1,4 2:0,4 1:0,2",
+ "time": 90,
+ "par": 6,
+ "parTime": 50
+}

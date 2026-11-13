@@ -1,0 +1,19 @@
+icon_skyrace.png
+size:464,204
+filter:Linear,Linear
+3
+bounds:288,6,59,53
+offsets:0,0,59,54
+3 copy
+bounds:426,132,35,69
+3 copy 2
+bounds:349,9,61,50
+body
+bounds:2,2,284,199
+head
+bounds:412,19,40,39
+offsets:1,0,41,39
+rotate:90
+xoay
+bounds:288,61,136,140
+offsets:1,1,139,142

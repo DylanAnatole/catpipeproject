@@ -1,0 +1,8 @@
+badge.png
+size:236,356
+filter:Linear,Linear
+scale:0.6
+Badge
+bounds:0,0,185,125
+Body_Badge
+bounds:0,126,233,230

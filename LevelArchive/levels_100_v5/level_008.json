@@ -1,0 +1,59 @@
+{
+ "name": "Màn 8",
+ "w": 4,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "3,3",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "3,2",
+   "cells": "0,0",
+   "paths": "ES"
+  },
+  {
+   "at": "0,3",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "0,0",
+   "cells": "0,2 0,1 0,0 1,0"
+  },
+  {
+   "at": "2,0",
+   "cells": "0,0 1,0"
+  }
+ ],
+ "cats": [
+  {
+   "side": "B",
+   "index": 3,
+   "color": 3
+  },
+  {
+   "side": "B",
+   "index": 0,
+   "color": 8
+  }
+ ],
+ "nests": [
+  {
+   "side": "R",
+   "index": 2,
+   "color": 3
+  },
+  {
+   "side": "R",
+   "index": 0,
+   "color": 8
+  }
+ ],
+ "hint": "Ô đơn",
+ "hintIcon": "blocks/b0_13",
+ "start": "3,1 2,2 1,3 0,1 0,0",
+ "solution": "0:3,3 1:3,2 4:2,0 3:0,0 2:0,3",
+ "time": 100,
+ "par": 7,
+ "parTime": 60
+}

@@ -1,0 +1,15 @@
+icon_spell.png
+size:512,208
+filter:Linear,Linear
+fx_to
+bounds:188,30,173,158
+offsets:2,2,177,161
+rotate:90
+hat
+bounds:348,2,96,73
+lamp
+bounds:348,77,126,160
+rotate:90
+light
+bounds:2,8,184,195
+offsets:7,14,204,222

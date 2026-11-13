@@ -1,0 +1,16 @@
+coin.png
+size:524,232
+filter:Linear,Linear
+Gold
+bounds:2,16,212,212
+Gold2
+bounds:2,16,212,212
+coin-side-round2
+bounds:216,85,143,219
+rotate:90
+coin_frame_1
+bounds:461,2,60,226
+shine
+bounds:216,13,70,243
+offsets:1,1,72,245
+rotate:90

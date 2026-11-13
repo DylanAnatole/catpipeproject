@@ -1,0 +1,51 @@
+{
+ "name": "Màn 3",
+ "w": 4,
+ "h": 4,
+ "pieces": [
+  {
+   "at": "1,2",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "0,0",
+   "cells": "1,1 1,0 0,0"
+  },
+  {
+   "at": "2,2",
+   "cells": "0,1 0,0 1,0"
+  }
+ ],
+ "cats": [
+  {
+   "side": "B",
+   "index": 1,
+   "color": 4
+  },
+  {
+   "side": "B",
+   "index": 2,
+   "color": 6
+  }
+ ],
+ "nests": [
+  {
+   "side": "L",
+   "index": 0,
+   "color": 4
+  },
+  {
+   "side": "R",
+   "index": 2,
+   "color": 6
+  }
+ ],
+ "tutorial": true,
+ "hint": "2 chú mèo",
+ "hintIcon": "paw",
+ "start": "0,0 2,0 1,2",
+ "solution": "2:2,2 0:1,2 1:0,0",
+ "time": 80,
+ "par": 5,
+ "parTime": 50
+}

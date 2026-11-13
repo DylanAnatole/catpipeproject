@@ -1,0 +1,1 @@
+{"sizeX":7,"sizeY":8,"holeInfos":[{"colorIds":[0],"position":{"x":3,"y":3},"holeType":11,"numOfCats":[4]}],"elevatorInfos":[{"position":{"x":1,"y":3},"levelInfo":{"sizeX":3,"sizeY":4,"catInfos":[{"colorId":0,"position":{"x":0,"y":1}},{"colorId":0,"position":{"x":1,"y":1}},{"colorId":0,"position":{"x":1,"y":2}},{"colorId":0,"position":{"x":0,"y":2}}]}}]}

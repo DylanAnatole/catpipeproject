@@ -1,0 +1,188 @@
+{
+"skeleton": {
+	"hash": "DTu7IEmFoE4",
+	"spine": "4.2.43",
+	"x": -67.2,
+	"y": -20.51,
+	"width": 134.96,
+	"height": 147.6,
+	"images": "./Setting/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "all", "parent": "root", "y": 55.22, "scaleX": 0.974, "scaleY": 0.974 },
+	{ "name": "set", "parent": "all", "x": 0.46, "y": 1.7 },
+	{ "name": "set_stroke", "parent": "all", "x": 0.46, "y": -1.42 },
+	{ "name": "set_shadow", "parent": "all", "x": 0.46, "y": -5.51 }
+],
+"slots": [
+	{ "name": "set_shadow2", "bone": "set_shadow", "color": "ffffffd4", "attachment": "set_shadow2" },
+	{ "name": "set_shadow1", "bone": "all", "attachment": "set_shadow1" },
+	{ "name": "set_2", "bone": "set_stroke", "color": "a3a3a3ff", "attachment": "set_1" },
+	{ "name": "set2", "bone": "set_stroke", "color": "b3b3b3ff" },
+	{ "name": "set_pivot", "bone": "all", "attachment": "set_pivot" },
+	{ "name": "set_1", "bone": "set", "attachment": "set_1" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"set_1": {
+				"set_1": { "x": 0.06, "y": 0.61, "scaleX": 0.6774, "scaleY": 0.6774, "width": 200, "height": 211 }
+			},
+			"set_2": {
+				"set_1": { "x": 0.06, "y": 0.13, "scaleX": 0.6848, "scaleY": 0.6848, "width": 200, "height": 211 }
+			},
+			"set_pivot": {
+				"set_pivot": { "x": 0.57, "y": 2.2, "scaleX": 0.7392, "scaleY": 0.7392, "width": 125, "height": 126 }
+			},
+			"set_shadow1": {
+				"set_shadow1": { "x": 0.87, "y": -4, "width": 87, "height": 87 }
+			},
+			"set_shadow2": {
+				"set_shadow2": { "x": -0.17, "y": 0.71, "scaleX": 0.815, "scaleY": 0.815, "width": 170, "height": 179 }
+			}
+		}
+	}
+],
+"animations": {
+	"set_off": {
+		"bones": {
+			"all": {
+				"translate": [
+					{
+						"curve": [ 0.044, 0, 0.089, 0, 0.044, 0, 0.089, 31.18 ]
+					},
+					{
+						"time": 0.1333,
+						"y": 31.18,
+						"curve": [ 0.178, 0, 0.222, 0, 0.178, 31.18, 0.222, 0 ]
+					},
+					{ "time": 0.2667 }
+				],
+				"scale": [
+					{
+						"curve": [ 0.044, 1, 0.089, 1.183, 0.044, 1, 0.089, 1.183 ]
+					},
+					{
+						"time": 0.1333,
+						"x": 1.183,
+						"y": 1.183,
+						"curve": [ 0.2, 1.183, 0.267, 0.972, 0.2, 1.183, 0.267, 0.972 ]
+					},
+					{
+						"time": 0.3333,
+						"x": 0.972,
+						"y": 0.972,
+						"curve": [ 0.389, 0.972, 0.444, 1, 0.389, 0.972, 0.444, 1 ]
+					},
+					{ "time": 0.5 }
+				]
+			},
+			"set": {
+				"rotate": [
+					{ "value": -179.17 },
+					{ "time": 0.3333, "value": -0.82 },
+					{ "time": 0.3667 }
+				]
+			},
+			"set_shadow": {
+				"rotate": [
+					{ "value": -179.17 },
+					{ "time": 0.3333, "value": -0.82 },
+					{ "time": 0.3667 }
+				]
+			},
+			"set_stroke": {
+				"rotate": [
+					{ "value": -179.17 },
+					{ "time": 0.3333, "value": -0.82 },
+					{ "time": 0.3667 }
+				]
+			}
+		}
+	},
+	"set_off_idle": {
+		"bones": {
+			"set_shadow": {
+				"scale": [
+					{}
+				]
+			}
+		}
+	},
+	"set_on": {
+		"bones": {
+			"all": {
+				"translate": [
+					{
+						"curve": [ 0.044, 0, 0.089, 0, 0.044, 0, 0.089, 31.18 ]
+					},
+					{
+						"time": 0.1333,
+						"y": 31.18,
+						"curve": [ 0.178, 0, 0.222, 0, 0.178, 31.18, 0.222, 0 ]
+					},
+					{ "time": 0.2667 }
+				],
+				"scale": [
+					{
+						"curve": [ 0.056, 1, 0.111, 1.155, 0.056, 1, 0.111, 1.155 ]
+					},
+					{
+						"time": 0.1667,
+						"x": 1.155,
+						"y": 1.155,
+						"curve": [ 0.222, 1.155, 0.278, 0.972, 0.222, 1.155, 0.278, 0.972 ]
+					},
+					{
+						"time": 0.3333,
+						"x": 0.972,
+						"y": 0.972,
+						"curve": [ 0.389, 0.972, 0.444, 1, 0.389, 0.972, 0.444, 1 ]
+					},
+					{ "time": 0.5 }
+				]
+			},
+			"set_shadow": {
+				"rotate": [
+					{},
+					{ "time": 0.4, "value": -179.17 }
+				]
+			},
+			"set": {
+				"rotate": [
+					{},
+					{ "time": 0.4, "value": -179.17 }
+				]
+			},
+			"set_stroke": {
+				"rotate": [
+					{},
+					{ "time": 0.4, "value": -179.17 }
+				]
+			}
+		}
+	},
+	"set_on_idle": {
+		"bones": {
+			"set_shadow": {
+				"rotate": [
+					{ "value": -179.17 }
+				]
+			},
+			"set": {
+				"rotate": [
+					{ "value": -179.17 }
+				]
+			},
+			"set_stroke": {
+				"rotate": [
+					{ "value": -179.17 }
+				]
+			}
+		}
+	}
+}
+}

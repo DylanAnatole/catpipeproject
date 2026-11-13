@@ -1,0 +1,52 @@
+mechanic random cat box.png
+size:996,516
+filter:Linear,Linear
+scale:0.8
+bang dinh
+bounds:2,265,67,246
+nap mo thung(R)
+bounds:889,351,104,160
+noti_1
+bounds:2,14,114,62
+noti_2
+bounds:622,15,111,156
+sticker cam
+bounds:241,343,160,168
+sticker do
+bounds:267,173,160,168
+sticker hong
+bounds:403,343,160,168
+sticker tim
+bounds:298,3,160,168
+sticker trang
+bounds:429,173,160,168
+sticker vang
+bounds:565,343,160,168
+sticker xanh la cay
+bounds:460,3,160,168
+sticker xanh ngoc
+bounds:591,173,160,168
+sticker xanh non chuoi
+bounds:727,343,160,168
+sticker xanh nuoc bien
+bounds:155,2,141,148
+thung 10
+bounds:2,78,151,185
+thung 4
+bounds:889,249,100,101
+rotate:90
+thung 5
+bounds:888,127,120,85
+rotate:90
+thung 6
+bounds:155,152,110,175
+thung 7
+bounds:735,5,120,115
+rotate:90
+thung 8
+bounds:753,128,128,83
+thung 9
+bounds:753,213,128,133
+rotate:90
+thung cat tong
+bounds:71,329,168,182

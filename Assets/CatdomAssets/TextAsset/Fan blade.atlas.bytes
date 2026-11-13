@@ -1,0 +1,7 @@
+Fan blade.png
+size:204,204
+filter:Linear,Linear
+Body
+bounds:0,0,70,60
+Quat_1
+bounds:0,61,145,142

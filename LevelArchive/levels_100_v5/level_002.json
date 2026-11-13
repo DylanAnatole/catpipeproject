@@ -1,0 +1,37 @@
+{
+ "name": "Màn 2",
+ "w": 4,
+ "h": 4,
+ "pieces": [
+  {
+   "at": "2,2",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "0,0",
+   "cells": "2,1 2,0 1,0 0,0"
+  }
+ ],
+ "cats": [
+  {
+   "side": "B",
+   "index": 2,
+   "color": 9
+  }
+ ],
+ "nests": [
+  {
+   "side": "L",
+   "index": 0,
+   "color": 9
+  }
+ ],
+ "tutorial": true,
+ "hint": "Rẽ góc",
+ "hintIcon": "paw",
+ "start": "3,0 0,1",
+ "solution": "1:0,0 0:2,2",
+ "time": 60,
+ "par": 4,
+ "parTime": 40
+}

@@ -1,0 +1,14 @@
+shop.png
+size:364,412
+filter:Linear,Linear
+scale:0.6
+Body_Shop
+bounds:0,161,297,251
+Box
+bounds:230,0,131,160
+Box_1
+bounds:0,3,23,25
+Box_2
+bounds:298,363,61,49
+Shop_1
+bounds:0,29,229,131

@@ -1,0 +1,60 @@
+{
+ "name": "Màn 15",
+ "w": 5,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "4,0",
+   "cells": "0,0 0,1",
+   "ice": 2
+  },
+  {
+   "at": "4,2",
+   "cells": "0,0"
+  },
+  {
+   "at": "4,3",
+   "cells": "0,0",
+   "paths": "NE"
+  },
+  {
+   "at": "2,2",
+   "cells": "0,2 0,1 0,0 1,0"
+  }
+ ],
+ "cats": [
+  {
+   "side": "T",
+   "index": 4,
+   "color": 7
+  },
+  {
+   "side": "B",
+   "index": 2,
+   "color": 1
+  }
+ ],
+ "nests": [
+  {
+   "side": "R",
+   "index": 3,
+   "color": 7
+  },
+  {
+   "side": "R",
+   "index": 2,
+   "color": 1
+  }
+ ],
+ "tutorial": true,
+ "hint": "Khối băng",
+ "hintIcon": "ice",
+ "introIcon": "ice",
+ "introTitle": "Khối băng",
+ "introText": "Khối băng tan dần sau mỗi lần kéo, tan hết mới đi được.",
+ "start": "0,1 1,3 0,0 1,0",
+ "solution": "3:2,2 2:4,3 1:4,2 0:4,0",
+ "time": 90,
+ "par": 6,
+ "parTime": 50
+}

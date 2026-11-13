@@ -1,0 +1,6 @@
+fish_banner.png
+size:160,200
+filter:Linear,Linear
+fish
+bounds:2,2,154,196
+offsets:1,0,155,196

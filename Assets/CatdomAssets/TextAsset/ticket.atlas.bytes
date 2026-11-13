@@ -1,0 +1,13 @@
+ticket.png
+size:2696,560
+filter:Linear,Linear
+ticket
+bounds:2,2,1115,556
+ticketL
+bounds:1119,2,650,556
+ticketR
+bounds:1771,2,591,556
+ticket_sdL
+bounds:2364,52,174,506
+ticket_sdR
+bounds:2540,52,152,506

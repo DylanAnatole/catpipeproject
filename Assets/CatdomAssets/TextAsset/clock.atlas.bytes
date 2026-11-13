@@ -1,0 +1,15 @@
+clock.png
+size:704,544
+filter:Linear,Linear
+clock_pink
+bounds:2,2,498,540
+long needle
+bounds:502,375,167,200
+rotate:90
+short needle
+bounds:502,257,181,116
+yellow_dot
+bounds:502,8,114,121
+yellow_dot2
+bounds:502,131,124,140
+rotate:90

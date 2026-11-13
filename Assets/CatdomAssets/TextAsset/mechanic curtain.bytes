@@ -1,0 +1,155 @@
+{
+"skeleton": {
+	"hash": "sDP32JWH4jc",
+	"spine": "4.2.43",
+	"x": -175,
+	"y": -171,
+	"width": 350,
+	"height": 343,
+	"images": "./images/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "curtain do", "parent": "root", "icon": "arrowUpDown" }
+],
+"slots": [
+	{ "name": "curtain", "bone": "curtain do", "attachment": "curtain" },
+	{ "name": "Rectangle shadow", "bone": "curtain do" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Rectangle shadow": {
+				"Rectangle shadow": { "scaleX": 1.6899, "scaleY": 1.6867, "width": 205, "height": 204 }
+			}
+		}
+	},
+	{
+		"name": "cam",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "cam", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "do",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain do", "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "hong",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain hong", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "timxanh",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain tim", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "trang",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain trang", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "vang",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain vang", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "xanhduong",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain xanh nuoc bien", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "xanhla",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain xanh la cay", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "xanhngoc",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain xanh ngoc", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	},
+	{
+		"name": "xanhnhat",
+		"attachments": {
+			"curtain": {
+				"curtain": { "name": "curtain xanh non chuoi", "y": 0.5, "width": 350, "height": 343 }
+			}
+		}
+	}
+],
+"animations": {
+	"close": {
+		"bones": {
+			"curtain do": {
+				"translate": [
+					{
+						"y": 344.35,
+						"curve": [ 0.111, 0, 0.222, 0, 0.111, 114.78, 0.222, 0 ]
+					},
+					{ "time": 0.3333 }
+				]
+			}
+		}
+	},
+	"close_idle": {
+		"bones": {
+			"curtain do": {
+				"translate": [
+					{}
+				]
+			}
+		}
+	},
+	"open": {
+		"bones": {
+			"curtain do": {
+				"translate": [
+					{
+						"curve": [ 0.111, 0, 0.222, 0, 0.111, 0, 0.222, 114.78 ]
+					},
+					{ "time": 0.3333, "y": 344.35 }
+				]
+			}
+		}
+	},
+	"open_idle": {
+		"bones": {
+			"curtain do": {
+				"translate": [
+					{ "y": 344.35 }
+				]
+			}
+		}
+	}
+}
+}

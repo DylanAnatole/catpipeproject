@@ -1,0 +1,26 @@
+screw pass reward.png
+size:300,232
+filter:Linear,Linear
+A2
+bounds:211,67,70,86
+offsets:2,2,73,89
+rotate:90
+D
+bounds:112,107,97,121
+offsets:2,2,101,124
+E2
+bounds:127,17,72,88
+offsets:2,1,76,90
+R2
+bounds:2,107,108,121
+offsets:1,2,111,124
+R3
+bounds:201,2,63,88
+offsets:2,1,67,90
+rotate:90
+S4
+bounds:211,139,75,89
+offsets:2,1,78,91
+W2
+bounds:2,14,123,91
+offsets:2,2,126,94

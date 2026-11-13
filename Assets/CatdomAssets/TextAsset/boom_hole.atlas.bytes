@@ -1,0 +1,9 @@
+boom_hole.png
+size:132,80
+filter:Linear,Linear
+bomb_hole
+bounds:2,2,76,89
+rotate:90
+fire
+bounds:93,38,40,36
+rotate:90

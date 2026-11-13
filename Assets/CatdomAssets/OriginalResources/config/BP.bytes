@@ -1,0 +1,34 @@
+Level,Free,Premium,Point
+0,50G,Max 8 lives,0
+1,50G,Freeze x2,3
+2,50G,30m Lives,4
+3,50G,400G,5
+4,Freeze,Freeze x2,5
+5,50G,Balloon x2,5
+6,50G,400G,5
+7,50G,Balloon,5
+8,50G,Freeze x2,6
+9,50G,Balloon x2,6
+10,100G,400G,6
+11,Balloon,Balloon x2,6
+12,50G,Freeze x2,6
+13,15m Lives,30m Lives,7
+14,50G,Balloon,7
+15,100G,60m Lives+Candy,7
+16,Freeze,Freeze x2,7
+17,50G,Balloon x2,7
+18,50G,Balloon,8
+19,15m Lives,30m Lives,8
+20,100G,400G,8
+21,50G,Freeze x2,8
+22,50G,Balloon x2,8
+23,50G,Freeze x2,9
+24,50G,400G,9
+25,Balloon+45m Lives,"60m Lives+Freeze x2
++Balloon x2",9
+26,100G,400G,9
+27,100G,400G,10
+28,100G,30m Lives,10
+29,100G,Freeze x2,10
+30,"Freeze + 200G
++ Candy",100m Lives+Freeze x4+Balloon x3+ Candy x2,15

@@ -1,0 +1,17 @@
+{
+  "eventType": 0,
+  "levelUnlock": 50,
+  "levelDownloadAssets": 40,
+  "activeHour": 0,
+  "duration": 24,
+  "playTime": 1,
+  "daysOfWeek": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ]
+}

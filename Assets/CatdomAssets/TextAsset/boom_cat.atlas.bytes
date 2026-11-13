@@ -1,0 +1,10 @@
+boom_cat.png
+size:104,60
+filter:Linear,Linear
+bomb
+bounds:2,2,54,68
+offsets:2,2,57,71
+rotate:90
+day
+bounds:72,19,28,37
+offsets:0,1,39,39

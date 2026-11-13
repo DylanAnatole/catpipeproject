@@ -1,0 +1,13 @@
+LavaQuet.png
+size:1192,380
+filter:Linear,Linear
+Be
+bounds:967,205,224,172
+Water
+bounds:0,0,801,377
+Water_1
+bounds:802,1,120,118
+tuong_meo1
+bounds:802,120,164,257
+tuong_meo2
+bounds:967,28,155,176

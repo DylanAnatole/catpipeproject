@@ -1,0 +1,69 @@
+{
+ "name": "Màn 26",
+ "w": 5,
+ "h": 6,
+ "pieces": [
+  {
+   "at": "3,4",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "3,1",
+   "cells": "0,2 0,1 0,0"
+  },
+  {
+   "at": "3,0",
+   "cells": "0,0",
+   "paths": "SW",
+   "color": 5
+  },
+  {
+   "at": "2,0",
+   "cells": "0,0",
+   "paths": "NE"
+  },
+  {
+   "at": "2,4",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "0,2",
+   "cells": "2,1 2,0 1,0 0,0"
+  }
+ ],
+ "cats": [
+  {
+   "side": "B",
+   "index": 3,
+   "color": 5
+  },
+  {
+   "side": "B",
+   "index": 2,
+   "color": 8
+  }
+ ],
+ "nests": [
+  {
+   "side": "T",
+   "index": 2,
+   "color": 5
+  },
+  {
+   "side": "L",
+   "index": 2,
+   "color": 8
+  }
+ ],
+ "tutorial": true,
+ "hint": "Khối màu",
+ "hintIcon": "blocks/b1_13",
+ "introIcon": "blocks/b1_13",
+ "introTitle": "Khối màu",
+ "introText": "Khối màu chỉ cho mèo cùng màu đi qua.",
+ "start": "4,0 4,3 2,4 4,2 1,4 0,1",
+ "solution": "0:3,4 2:3,0 4:2,4 5:0,2 3:2,0 1:3,1",
+ "time": 100,
+ "par": 8,
+ "parTime": 60
+}

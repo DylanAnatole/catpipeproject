@@ -1,0 +1,9 @@
+Hammer.png
+size:140,140
+filter:Linear,Linear
+BG
+bounds:0,50,99,89
+BG_1
+bounds:0,3,46,46
+Layer 1
+bounds:100,93,39,46

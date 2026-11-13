@@ -1,0 +1,90 @@
+{
+ "name": "Màn 22",
+ "w": 5,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "0,2",
+   "cells": "0,0",
+   "paths": "ESW"
+  },
+  {
+   "at": "0,3",
+   "cells": "0,0 0,1"
+  },
+  {
+   "at": "1,2",
+   "cells": "0,0 1,0 2,0"
+  },
+  {
+   "at": "4,2",
+   "cells": "0,0",
+   "paths": "NESW"
+  },
+  {
+   "at": "4,0",
+   "cells": "0,1 0,0"
+  },
+  {
+   "at": "4,3",
+   "cells": "0,0 0,1"
+  },
+  {
+   "at": "2,0",
+   "cells": "1,0 1,1 0,1"
+  },
+  {
+   "at": "0,1",
+   "cells": "1,0 0,0"
+  }
+ ],
+ "cats": [
+  {
+   "side": "L",
+   "index": 2,
+   "color": 6,
+   "count": 2
+  },
+  {
+   "side": "R",
+   "index": 2,
+   "color": 2
+  },
+  {
+   "side": "T",
+   "index": 3,
+   "color": 8,
+   "ice": 2
+  }
+ ],
+ "nests": [
+  {
+   "side": "B",
+   "index": 0,
+   "color": 6
+  },
+  {
+   "side": "T",
+   "index": 4,
+   "color": 6
+  },
+  {
+   "side": "B",
+   "index": 4,
+   "color": 2
+  },
+  {
+   "side": "L",
+   "index": 1,
+   "color": 8
+  }
+ ],
+ "walls": "2,3",
+ "hint": "Mèo đóng băng",
+ "hintIcon": "ice",
+ "start": "0,3 1,2 2,2 4,3 3,0 3,3 1,0 0,0",
+ "solution": "0:0,2 1:0,3 2:1,2 3:4,2 4:4,0 5:4,3 6:2,0 7:0,1",
+ "time": 140,
+ "par": 10,
+ "parTime": 80
+}

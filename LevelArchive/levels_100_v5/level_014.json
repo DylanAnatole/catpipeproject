@@ -1,0 +1,76 @@
+{
+ "name": "Màn 14",
+ "w": 5,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "0,2",
+   "cells": "0,0",
+   "paths": "ESW"
+  },
+  {
+   "at": "0,3",
+   "cells": "0,0 0,1"
+  },
+  {
+   "at": "1,2",
+   "cells": "0,0 1,0 1,1 1,2"
+  },
+  {
+   "at": "4,0",
+   "cells": "0,0",
+   "paths": "NE"
+  },
+  {
+   "at": "3,2",
+   "cells": "0,2 0,1 0,0 1,0"
+  }
+ ],
+ "cats": [
+  {
+   "side": "L",
+   "index": 2,
+   "color": 3,
+   "count": 2
+  },
+  {
+   "side": "R",
+   "index": 0,
+   "color": 8
+  },
+  {
+   "side": "B",
+   "index": 3,
+   "color": 6
+  }
+ ],
+ "nests": [
+  {
+   "side": "B",
+   "index": 0,
+   "color": 3
+  },
+  {
+   "side": "B",
+   "index": 2,
+   "color": 3
+  },
+  {
+   "side": "T",
+   "index": 4,
+   "color": 8
+  },
+  {
+   "side": "R",
+   "index": 2,
+   "color": 6
+  }
+ ],
+ "hint": "Ổ nhiều mèo",
+ "hintIcon": "pad",
+ "start": "1,4 2,3 0,0 4,3 3,1",
+ "solution": "0:0,2 1:0,3 3:4,0 2:1,2 4:3,2",
+ "time": 120,
+ "par": 7,
+ "parTime": 70
+}

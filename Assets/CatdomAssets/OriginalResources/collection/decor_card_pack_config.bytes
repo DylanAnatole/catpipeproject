@@ -1,0 +1,65 @@
+{
+  "cardTypeWeights": [
+    {
+      "cardType": "OneStarSilver",
+      "weight": 34.81
+    },
+    {
+      "cardType": "TwoStarSilver",
+      "weight": 27.21
+    },
+    {
+      "cardType": "ThreeStarSilver",
+      "weight": 17.24
+    },
+    {
+      "cardType": "FourStarSilver",
+      "weight": 10.49
+    },
+    {
+      "cardType": "FiveStarSilver",
+      "weight": 6.25
+    },
+    {
+      "cardType": "GoldCard",
+      "weight": 4.00
+    }
+  ],
+  "packs": [
+    {
+      "packType": "CollectionPack1",
+      "cardsPerPack": 2,
+      "guaranteeMinStar": 0,
+      "missingCardChance": 0.0,
+      "missingCardChanceIncreasePerMiss": 0.0
+    },
+    {
+      "packType": "CollectionPack2",
+      "cardsPerPack": 3,
+      "guaranteeMinStar": 0,
+      "missingCardChance": 0.0,
+      "missingCardChanceIncreasePerMiss": 0.0
+    },
+    {
+      "packType": "CollectionPack3",
+      "cardsPerPack": 4,
+      "guaranteeMinStar": 0,
+      "missingCardChance": 0.0,
+      "missingCardChanceIncreasePerMiss": 0.0
+    },
+    {
+      "packType": "CollectionPack4",
+      "cardsPerPack": 6,
+      "guaranteeMinStar": 3,
+      "missingCardChance": 34.0,
+      "missingCardChanceIncreasePerMiss": 34.0
+    },
+    {
+      "packType": "CollectionPack5",
+      "cardsPerPack": 6,
+      "guaranteeMinStar": 3,
+      "missingCardChance": 100.0,
+      "missingCardChanceIncreasePerMiss": 0.0
+    }
+  ]
+}

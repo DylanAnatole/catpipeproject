@@ -1,0 +1,184 @@
+{
+    "rewards": [
+        {
+            "dataResources": [
+                {
+                    "description": "",
+                    "resType": 18,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 0,
+                    "subID": 0,
+                    "amount": 200,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 10,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 3,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 4,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 5,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                }
+            ]
+        },
+        {
+            "dataResources": [
+                {
+                    "description": "",
+                    "resType": 17,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 0,
+                    "subID": 0,
+                    "amount": 100,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 10,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 3,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 4,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                }
+            ]
+        },
+        {
+            "dataResources": [
+                {
+                    "description": "",
+                    "resType": 16,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 0,
+                    "subID": 0,
+                    "amount": 50,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 10,
+                    "_idBg": 0
+                },
+                {
+                    "description": "",
+                    "resType": 3,
+                    "subID": 0,
+                    "amount": 1,
+                    "_icon": {
+                        "instanceID": 0
+                    },
+                    "_bg": {
+                        "instanceID": 0
+                    },
+                    "_idIcon": 0,
+                    "_idBg": 0
+                }
+            ]
+        }
+    ]
+}

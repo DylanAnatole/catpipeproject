@@ -1,0 +1,37 @@
+online_rewards.png
+size:644,412
+filter:Linear,Linear
+clock_pink
+bounds:469,20,172,184
+coinL
+bounds:151,23,140,105
+offsets:3,1,144,106
+coinR
+bounds:112,130,277,184
+offsets:1,1,279,185
+rotate:90
+light
+bounds:490,264,143,143
+offsets:4,3,150,149
+long needle
+bounds:2,24,57,69
+offsets:0,0,58,70
+qua1
+bounds:298,206,190,201
+offsets:1,1,191,202
+qua2
+bounds:298,19,169,185
+offsets:1,1,170,187
+sd_clock
+bounds:2,95,312,108
+offsets:5,7,326,120
+rotate:90
+short needle
+bounds:61,24,69,43
+rotate:90
+yellow_dot
+bounds:106,2,40,41
+offsets:0,0,40,42
+yellow_dot2
+bounds:106,45,43,48
+offsets:0,0,43,49

@@ -1,0 +1,10 @@
+home.png
+size:324,216
+filter:Linear,Linear
+scale:0.6
+Ears_L
+bounds:242,3,82,104
+Ears_R
+bounds:242,108,81,107
+Home_1
+bounds:0,0,241,215

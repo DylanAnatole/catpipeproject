@@ -1,0 +1,14 @@
+team.png
+size:220,408
+filter:Linear,Linear
+scale:0.6
+Body_team
+bounds:0,152,219,254
+vay4
+bounds:99,0,87,55
+vay_1
+bounds:104,56,79,95
+vay_2
+bounds:0,73,103,78
+vay_3
+bounds:0,11,98,61

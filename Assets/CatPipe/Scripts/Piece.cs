@@ -27,9 +27,10 @@ namespace CatPipe
         static readonly int[] NoPathShapes = { 0, 1, 2, 3, 13 };
 
         Color BaseTint => isFixed ? FixedTint : masks.All(m => m == 0) ? DeadTint : color == 0 ? NeutralTint : Color.white;
-        static readonly Color DotIdle = new Color(1f, 1f, 1f, 0.92f);
+        static readonly Color LineIdle = new Color(1f, 0.9f, 0.72f, 0.5f); // quiet until a cat's route lights it
         static readonly Color GrooveIdle = new Color(0.27f, 0.14f, 0.06f, 1f);
-        const float DotSize = 0.18f, FlowDotSize = 0.23f, GlowSize = 0.5f, GrooveWidth = 0.24f;
+        // the path is a continuous rail (a cream line in a dark groove), not a row of dots
+        const float LineWidth = 0.065f, LitLineWidth = 0.13f, GlowSize = 0.46f, GrooveWidth = 0.24f;
 
         // Path dot color per cat color (1-9: red, yellow, blue, green, pink, purple, orange, cyan, white).
         public static readonly Color[] CatColors =
@@ -63,7 +64,8 @@ namespace CatPipe
         Transform shadowTr;
         SpriteRenderer blockSr, highlightSr;
         Coroutine flashCo;
-        SpriteRenderer[][] cellDots, cellGlows, cellGrooves;
+        SpriteRenderer[][] cellDots, cellGlows, cellGrooves; // cellDots = the rail pieces of each cell
+        Vector3[][] lineIdle, lineLit;                         // their scale when idle / lit (lit = thicker)
         int[] flowOrder; // position along the cat's route, -1 = no route here
         SpriteRenderer gateSr, keySr, lockSr, bombSr, bombBadge, iceBadge; // badges: dark discs behind the counters
         static readonly Color BadgeColor = new Color(0.22f, 0.1f, 0.04f, 0.85f);
@@ -136,6 +138,8 @@ namespace CatPipe
             BuildBody();
 
             cellDots = new SpriteRenderer[offs.Length][];
+            lineIdle = new Vector3[offs.Length][];
+            lineLit = new Vector3[offs.Length][];
             cellGlows = new SpriteRenderer[offs.Length][];
             cellGrooves = new SpriteRenderer[offs.Length][];
             flowOrder = new int[offs.Length];
@@ -290,40 +294,52 @@ namespace CatPipe
             blockSr = sr;
         }
 
-        // Dots every quarter cell along the path: the center, the middle of each open arm, and the cell edge
-        // (edges shared inside the block are drawn once, by the E/S side).
+        // Each path cell: a dark groove from its center to every open edge, and inside it a continuous rail
+        // (straight strips with a round joint at the center, so corners read as one smooth line).
+        // Open ends cut through the block's rim and stop at its outline (the body is drawn at 0.97 scale).
         void BuildDots(int i, Vector2 c)
         {
-            var points = new List<Vector2>();
+            var glowAt = new List<Vector2>();
             var grooves = new List<SpriteRenderer>();
-            if (masks[i] != 0) // a dead cell (no path) shows no dots; a path cell gets a round hub for its groove
+            var rails = new List<SpriteRenderer>();
+            var idle = new List<Vector3>();
+            var lit = new List<Vector3>();
+            if (masks[i] != 0) // a dead cell (no path) shows nothing; a path cell gets round joints
             {
-                points.Add(c);
-                var hub = GameController.MakeSprite("Groove", transform, gc.sprDisc, GrooveWidth, 1, c);
-                grooves.Add(hub);
+                glowAt.Add(c);
+                grooves.Add(GameController.MakeSprite("Groove", transform, gc.sprDisc, GrooveWidth, 1, c));
+                var joint = GameController.MakeSprite("Dot", transform, gc.sprDisc, LineWidth, 3, c);
+                rails.Add(joint);
+                idle.Add(joint.transform.localScale);
+                lit.Add(joint.transform.localScale * (LitLineWidth / LineWidth));
             }
             if (junction[i]) // a ring marks a cell where cats can turn
             {
-                var ring = GameController.MakeSprite("Hub", transform, gc.sprHubRing, 0.42f, 3, c);
+                var ring = GameController.MakeSprite("Hub", transform, gc.sprHubRing, 0.42f, 4, c);
                 ring.color = new Color(1f, 1f, 1f, 0.85f);
             }
             for (int d = 0; d < 4; d++)
             {
                 if (((masks[i] >> d) & 1) == 0) continue;
                 var dir = new Vector2(Dir.Step[d].x, -Dir.Step[d].y);
-                points.Add(c + dir * 0.25f);
                 bool shared = offs.Contains(offs[i] + Dir.Step[d]);
-                if (!shared || d == 1 || d == 2) points.Add(c + dir * 0.5f);
-                // A dark groove from the cell center to its edge: open ends cut through the block's rim
-                // and stop at the block's outline (the body is drawn at 0.97 scale).
                 float len = shared ? 0.5f : 0.46f;
+                glowAt.Add(c + dir * 0.3f);
                 var g = GameController.MakeSprite("Groove", transform, gc.sprWhite, 1f, 1, c + dir * (len / 2f));
                 g.transform.localScale = d % 2 == 1 ? new Vector3(len, GrooveWidth, 1f) : new Vector3(GrooveWidth, len, 1f);
                 grooves.Add(g);
+                var r = GameController.MakeSprite("Dot", transform, gc.sprWhite, 1f, 3, c + dir * (len / 2f));
+                bool horiz = d % 2 == 1;
+                idle.Add(horiz ? new Vector3(len, LineWidth, 1f) : new Vector3(LineWidth, len, 1f));
+                lit.Add(horiz ? new Vector3(len, LitLineWidth, 1f) : new Vector3(LitLineWidth, len, 1f));
+                r.transform.localScale = idle[idle.Count - 1];
+                rails.Add(r);
             }
             cellGrooves[i] = grooves.ToArray();
-            cellDots[i] = points.Select(p => GameController.MakeSprite("Dot", transform, gc.sprDot, DotSize, 3, p)).ToArray();
-            cellGlows[i] = points.Select(p => GameController.MakeSprite("Glow", transform, gc.sprGlow, GlowSize, 2, p)).ToArray();
+            cellDots[i] = rails.ToArray();
+            lineIdle[i] = idle.ToArray();
+            lineLit[i] = lit.ToArray();
+            cellGlows[i] = glowAt.Select(p => GameController.MakeSprite("Glow", transform, gc.sprGlow, GlowSize, 2, p)).ToArray();
         }
 
         public void Refresh(bool keysCollected)
@@ -379,74 +395,155 @@ namespace CatPipe
             for (int i = 0; i < offs.Length; i++) SetFlow(i, 0, -1);
         }
 
-        // Where a cat's route reaches, the dots light up in the cat's color with a glow; order = step along the route.
+        int[] flowColor;
+
+        // Where a cat's route reaches, the rail turns the cat's color, gets a little thicker and glows;
+        // order = step along the route (drives the light running toward the hole).
         public void SetFlow(int cellIndex, int catColor, int order)
         {
+            if (flowColor == null) flowColor = new int[offs.Length];
             flowOrder[cellIndex] = catColor > 0 ? order : -1;
-            var lit = catColor > 0 ? Color.Lerp(GrooveIdle, CatColors[catColor], 0.55f) : GrooveIdle;
-            // the groove takes the cat's color along its route (opaque: overlapping pieces don't darken)
+            flowColor[cellIndex] = catColor;
+            var lit = catColor > 0 ? Color.Lerp(GrooveIdle, CatColors[catColor], 0.35f) : GrooveIdle;
+            // the groove takes a hint of the cat's color along its route (opaque: overlapping pieces don't darken)
             foreach (var g in cellGrooves[cellIndex]) g.color = lit;
-            foreach (var d in cellDots[cellIndex]) d.color = catColor > 0 ? CatColors[catColor] : DotIdle;
+            var rails = cellDots[cellIndex];
+            for (int k = 0; k < rails.Length; k++)
+            {
+                rails[k].color = catColor > 0 ? CatColors[catColor] : LineIdle;
+                rails[k].transform.localScale = catColor > 0 ? lineLit[cellIndex][k] : lineIdle[cellIndex][k];
+            }
             foreach (var g in cellGlows[cellIndex])
             {
                 g.enabled = catColor > 0;
-                if (catColor > 0) g.color = new Color(CatColors[catColor].r, CatColors[catColor].g, CatColors[catColor].b, 0.55f);
+                if (catColor > 0) g.color = new Color(CatColors[catColor].r, CatColors[catColor].g, CatColors[catColor].b, 0.4f);
             }
-            if (catColor == 0)
-                foreach (var d in cellDots[cellIndex]) d.transform.localScale = DotScale(DotSize);
         }
 
-        Vector3 DotScale(float size) => Vector3.one * (size / gc.sprDot.bounds.size.x);
-
-        // Lit dots pulse in a wave running along the route.
+        // A soft gleam runs along a lit route toward the hole: each cell brightens in turn.
         void Update()
         {
+            if (flowColor == null) return;
             for (int i = 0; i < offs.Length; i++)
             {
                 if (flowOrder[i] < 0) continue;
-                float k = 1f + 0.25f * Mathf.Sin(Time.time * 6f - flowOrder[i] * 0.9f);
-                foreach (var d in cellDots[i]) d.transform.localScale = DotScale(FlowDotSize * k);
+                float w = Mathf.Pow(Mathf.Max(0f, Mathf.Sin(Time.time * 4.5f - flowOrder[i] * 0.75f)), 6f);
+                var baseC = CatColors[flowColor[i]];
+                var c = Color.Lerp(baseC, Color.white, 0.55f * w);
+                foreach (var d in cellDots[i]) d.color = c;
+                foreach (var g in cellGlows[i]) g.color = new Color(baseC.r, baseC.g, baseC.b, 0.32f + 0.3f * w);
             }
         }
 
-        // Lifted blocks grow a little and cast a longer shadow.
+        // ---- lift / hold / land. Picked up, the block rises (grows, longer shadow, warm rim) with a little spring;
+        // held, it follows the finger smoothly and leans into the motion; released, it glides into its cell with a
+        // slight overshoot, settles upright and squashes with a puff of dust. Scale and lean pivot on the block's
+        // center, so a long block doesn't swing around its first cell.
+        float lift, tilt;           // lift 0..1 (springs a bit past 1), lean in degrees
+        Vector2 squash;             // landing squash: x widens, y flattens
+        Vector3 basePos;            // where the block sits without the pose
+        bool posing;                // the game drives the position (Hold / Land); the demo stage moves the transform itself
+        Coroutine poseCo;
+
+        public Vector3 HeldBase => posing ? basePos : transform.localPosition;
+
         public void SetDragging(bool on)
         {
-            group.sortingOrder = on ? 50 : 5;
-            transform.localScale = Vector3.one * (on ? 1.06f : 1f);
-            if (shadowTr) shadowTr.localPosition = blockCenter + (on ? new Vector3(0.12f, -0.22f) : new Vector3(0.05f, -0.09f));
-            if (highlightSr) highlightSr.color = new Color(1f, 1f, 0.85f, on ? 0.75f : 0f);
-            if (!on) StartCoroutine(Settle());
-        }
-
-        // On release the block glides from where it was held into its cell (no snapping jump).
-        public void GlideFrom(Vector3 from)
-        {
-            StartCoroutine(AnimGlide(from, transform.localPosition));
-        }
-
-        IEnumerator AnimGlide(Vector3 from, Vector3 to)
-        {
-            for (float t = 0; t < 1f; t += Time.deltaTime / 0.09f)
+            if (poseCo != null) StopCoroutine(poseCo);
+            if (on)
             {
-                transform.localPosition = Vector3.Lerp(from, to, 1f - (1f - t) * (1f - t));
+                group.sortingOrder = 50;
+                basePos = transform.localPosition;
+                poseCo = StartCoroutine(AnimLift());
+            }
+            else
+            {
+                if (posing) basePos = transform.localPosition; // put back in its cell (Put) without a glide
+                poseCo = StartCoroutine(AnimDown(false, basePos, basePos));
+            }
+        }
+
+        // Called every frame while held: follow the target smoothly and lean with the horizontal speed.
+        public void Hold(Vector3 target)
+        {
+            posing = true;
+            float dt = Time.deltaTime;
+            var prev = basePos;
+            basePos = Vector3.Lerp(basePos, target, 1f - Mathf.Exp(-28f * dt));
+            float vx = dt > 0f ? (basePos.x - prev.x) / dt : 0f;
+            tilt = Mathf.Lerp(tilt, Mathf.Clamp(-vx * 1.4f, -6f, 6f), 1f - Mathf.Exp(-12f * dt));
+            ApplyPose();
+        }
+
+        // Released: Put() has already moved the transform to its cell; glide there from where it was held.
+        public void Land(Vector3 from)
+        {
+            if (poseCo != null) StopCoroutine(poseCo);
+            var to = transform.localPosition;
+            posing = true;
+            poseCo = StartCoroutine(AnimDown(true, from, to));
+        }
+
+        static float EaseOutBack(float t, float c = 1.7f)
+        {
+            t = Mathf.Clamp01(t) - 1f;
+            return 1f + (c + 1f) * t * t * t + c * t * t;
+        }
+
+        IEnumerator AnimLift()
+        {
+            float l0 = lift;
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.14f)
+            {
+                lift = Mathf.LerpUnclamped(l0, 1f, EaseOutBack(t, 2.2f));
+                ApplyPose();
                 yield return null;
             }
-            transform.localPosition = to;
+            lift = 1f;
+            ApplyPose();
         }
 
-        // Small squash and a puff of dust under the block's lower edge when it lands.
-        IEnumerator Settle()
+        IEnumerator AnimDown(bool glide, Vector3 from, Vector3 to)
         {
+            float l0 = lift, t0 = tilt;
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.17f)
+            {
+                if (glide) basePos = Vector3.LerpUnclamped(from, to, EaseOutBack(t, 1.3f));
+                lift = Mathf.Lerp(l0, 0f, t);
+                tilt = Mathf.Lerp(t0, 0f, t);
+                ApplyPose();
+                yield return null;
+            }
+            basePos = to; lift = 0f; tilt = 0f;
+            ApplyPose();
             foreach (var o in offs.Where(o => !offs.Contains(o + Dir.Step[2])))
                 for (int k = -1; k <= 1; k += 2)
-                    StartCoroutine(Puff(transform.localPosition + new Vector3(o.x + k * 0.3f, -o.y - 0.45f)));
-            for (float t = 0; t < 1f; t += Time.deltaTime / 0.18f)
+                    StartCoroutine(Puff(to + new Vector3(o.x + k * 0.3f, -o.y - 0.45f)));
+            for (float t = 0; t < 1f; t += Time.deltaTime / 0.2f)
             {
-                transform.localScale = Vector3.one * (1f - 0.06f * Mathf.Sin(t * Mathf.PI));
+                float s = Mathf.Sin(t * Mathf.PI) * (1f - t * 0.4f);
+                squash = new Vector2(0.05f * s, -0.07f * s);
+                ApplyPose();
                 yield return null;
             }
-            transform.localScale = Vector3.one;
+            squash = Vector2.zero;
+            ApplyPose();
+            posing = false;
+            group.sortingOrder = 5;
+            poseCo = null;
+        }
+
+        void ApplyPose()
+        {
+            float s = 1f + 0.07f * lift;
+            var scale = new Vector3(s * (1f + squash.x), s * (1f + squash.y), 1f);
+            var q = Quaternion.Euler(0, 0, tilt);
+            transform.localScale = scale;
+            transform.localRotation = q;
+            if (posing) transform.localPosition = basePos + blockCenter - q * Vector3.Scale(blockCenter, scale);
+            float l = Mathf.Clamp01(lift);
+            if (shadowTr) shadowTr.localPosition = blockCenter + Vector3.Lerp(new Vector3(0.05f, -0.09f), new Vector3(0.15f, -0.28f), l);
+            if (highlightSr) highlightSr.color = new Color(1f, 1f, 0.85f, 0.7f * l);
         }
 
         IEnumerator Puff(Vector3 pos)

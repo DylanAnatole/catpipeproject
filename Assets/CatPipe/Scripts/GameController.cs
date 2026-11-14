@@ -64,16 +64,38 @@ namespace CatPipe
         readonly Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
         int lastTickSec = -1;
 
-        internal void Sfx(string name, float vol = 1f, float pitchVar = 0.06f)
+        internal void Sfx(string name, float vol = 1f, float pitchVar = 0.06f) =>
+            SfxAt(name, vol, 1f + UnityEngine.Random.Range(-pitchVar, pitchVar));
+
+        // A small pool of sources: each sound keeps its own pitch (a rising run of ticks doesn't bend the others).
+        AudioSource[] sfxPool;
+        int sfxNext;
+
+        internal void SfxAt(string name, float vol, float pitch)
         {
             if (!clips.TryGetValue(name, out var c)) clips[name] = c = Resources.Load<AudioClip>("Audio/" + name);
             if (c == null) return;
-            sfx.pitch = 1f + UnityEngine.Random.Range(-pitchVar, pitchVar);
-            sfx.PlayOneShot(c, vol);
+            if (sfxPool == null)
+            {
+                sfxPool = new AudioSource[8];
+                for (int i = 0; i < sfxPool.Length; i++)
+                {
+                    var s = sfxPool[i] = sfx.gameObject.AddComponent<AudioSource>();
+                    s.playOnAwake = false;
+                    s.volume = sfx.volume;
+                    s.outputAudioMixerGroup = sfx.outputAudioMixerGroup;
+                }
+            }
+            var src = sfxPool[sfxNext];
+            sfxNext = (sfxNext + 1) % sfxPool.Length;
+            src.pitch = pitch;
+            src.PlayOneShot(c, vol);
         }
 
         // ---- continuous drag: the block collides with walls and other blocks and slides along them
         Vector2 dragPos, grabOffF, bumpOffset;
+        Vector2Int lastSnap;
+        int dragSteps;
         float lastBump;
         bool wasBlocked;
 
@@ -184,6 +206,7 @@ namespace CatPipe
             if (boardRoot) Destroy(boardRoot.gameObject);
             pieces.Clear(); cats.Clear(); nests.Clear();
             keysCollected = false; busy = false; playing = true; resolvePending = false; dragIdx = -1; gateTimer = 0; movesMade = 0;
+            flowLit = -1; flowReady = 0;
             panel.SetActive(false);
             CloseSettings();
             SetPickCat(false);
@@ -795,6 +818,7 @@ namespace CatPipe
                 wasBlocked = false;
                 ghost = pieces[i].MakeGhost(boardRoot);
                 pieces[i].SetDragging(true);
+                lastSnap = pieces[i].anchor; dragSteps = 0;
                 Sfx("block_pick", 0.5f);
                 return;
             }
@@ -822,8 +846,14 @@ namespace CatPipe
                 else if (blocked) wasBlocked = true;
                 bumpOffset = Vector2.Lerp(bumpOffset, Vector2.zero, 14f * Time.deltaTime);
                 var visual = dragPos + new Vector2(bumpOffset.x, bumpOffset.y);
-                piece.transform.localPosition = Vector3.Lerp(piece.transform.localPosition, CellToWorldF(visual), 35f * Time.deltaTime);
+                piece.Hold(CellToWorldF(visual));
                 var snap = new Vector2Int(Mathf.RoundToInt(dragPos.x), Mathf.RoundToInt(dragPos.y));
+                if (snap != lastSnap) // a soft tick for every cell the block slides across, rising in pitch
+                {
+                    lastSnap = snap;
+                    dragSteps++;
+                    SfxAt("cell_tick", 0.55f, Mathf.Min(1.45f, 0.95f + 0.06f * dragSteps));
+                }
                 ghost.transform.parent.localPosition = CellToWorld(snap);
                 ghost.enabled = snap != piece.anchor && Fits(dragIdx, snap);
                 return;
@@ -833,11 +863,10 @@ namespace CatPipe
             dragTarget = new Vector2Int(Mathf.RoundToInt(dragPos.x), Mathf.RoundToInt(dragPos.y));
             if (!Fits(dragIdx, dragTarget)) // safety: nearest cell the block could slide to
                 dragTarget = dragReach.OrderBy(a => (a - dragPos).sqrMagnitude).First();
-            var heldAt = piece.transform.localPosition;
+            var heldAt = piece.HeldBase;
             Lift(dragIdx);
             Put(dragIdx, dragTarget);
-            piece.SetDragging(false);
-            piece.GlideFrom(heldAt);
+            piece.Land(heldAt);
             Destroy(ghost.transform.parent.gameObject);
             dragIdx = -1;
             bool tap = dragTarget == from && pickDist < 0.3f;
@@ -931,7 +960,7 @@ namespace CatPipe
             pieces[moved].Reveal();
             AdvanceTutorial(moved, rotated);
             foreach (var p in pieces)
-                if (p.ice > 0) { p.ice--; p.Refresh(keysCollected); Sfx("ice", 0.6f); }
+                if (p.ice > 0) { p.ice--; p.Refresh(keysCollected); Sfx(p.ice == 0 ? "ice_crack" : "ice", 0.6f); }
             UpdateFlow();
             RequestResolve();
         }
@@ -990,6 +1019,7 @@ namespace CatPipe
             var pts = t.cells.Select(c => CellToWorld(c) + Feet).ToList();
             pts.Add(t.nest.tr.position + Feet + new Vector3(0, 0.1f));
             Play(cat, "jump1", false); // take-off
+            Sfx("cat_whoosh", 0.45f);
             yield return new WaitForSeconds(0.12f);
             Sfx("meow" + UnityEngine.Random.Range(1, 8), 0.8f, 0.1f);
             var pos = cat.tr.position;
@@ -1029,7 +1059,11 @@ namespace CatPipe
                 if (i < t.cells.Count)
                 {
                     var p = pieces[occ[t.cells[i].x, t.cells[i].y]];
-                    if (p.key) { p.key = false; keysCollected = true; foreach (var q in pieces) q.Refresh(true); Sfx("key"); }
+                    if (p.key)
+                    {
+                        p.key = false; keysCollected = true; foreach (var q in pieces) q.Refresh(true); Sfx("key");
+                        if (pieces.Any(q => q.isLock)) Sfx("lock_open", 0.55f); // the locks click open
+                    }
                     if (p.bombLive) { p.bombLive = false; p.Refresh(keysCollected); }
                     p.Reveal();
                 }
@@ -1045,7 +1079,8 @@ namespace CatPipe
             }
             cat.tr.localScale = baseScale;
             t.nest.paw.enabled = false;
-            Sfx("hole", 0.9f);
+            Sfx("hole", 0.7f);
+            Sfx("nest_in", 0.7f);
             AvatarReact("ip_like");
             foreach (var c in cats) // frozen cats thaw as other cats get home
             {
@@ -1069,16 +1104,19 @@ namespace CatPipe
         {
             var used = new HashSet<int>();
             foreach (var c in t.cells) { int i = occ[c.x, c.y]; if (i >= 0) used.Add(i); }
+            int n = 0;
             foreach (int i in used)
             {
                 Lift(i);
-                StartCoroutine(Vanish(pieces[i]));
+                StartCoroutine(Vanish(pieces[i], n++));
             }
-            if (used.Count > 0) Sfx("block_pick", 0.6f);
         }
 
-        IEnumerator Vanish(Piece p)
+        // The blocks pop one after another, each a little higher.
+        IEnumerator Vanish(Piece p, int order)
         {
+            yield return new WaitForSeconds(0.07f * order);
+            SfxAt("vanish", 0.5f, 1f + 0.09f * order);
             var a = p.transform.localPosition;
             var center = a;
             if (p.offs.Length > 0)
@@ -1185,22 +1223,33 @@ namespace CatPipe
             if (root) Destroy(root.gameObject);
         }
 
+        int flowLit = -1, flowReady; // last lit cell count / finished roads (-1: level just loaded, stay quiet)
+
         void UpdateFlow()
         {
             foreach (var p in pieces) p.ResetFlow();
             foreach (var n in nests) n.ready = false;
+            int lit = 0, ready = 0;
             foreach (var cat in cats)
             {
                 if (cat.done || cat.waiting) continue;
                 var tr = TraceFrom(cat);
-                if (tr.success) tr.nest.ready = true;
+                if (tr.success) { tr.nest.ready = true; ready++; }
                 var cells = tr.cells;
+                lit += cells.Count;
                 for (int k = 0; k < cells.Count; k++)
                 {
                     var p = pieces[occ[cells[k].x, cells[k].y]];
                     p.SetFlow(p.CellIndex(cells[k]), cat.color, k);
                 }
             }
+            // sound: a road just finished chimes; a road that got longer gives a soft rising note
+            if (flowLit >= 0 && playing)
+            {
+                if (ready > flowReady) SfxAt("path_done", 0.5f, 1f);
+                else if (lit > flowLit) SfxAt("path_grow", 0.35f, Mathf.Min(1.35f, 1f + 0.03f * lit));
+            }
+            flowLit = lit; flowReady = ready;
         }
 
         // ---------------------------------------------------------------- debug (internal testing)
@@ -1216,17 +1265,53 @@ namespace CatPipe
                 var st = scrambleSteps[s];
                 var piece = pieces[st.piece];
                 if (st.rot) { piece.Rotate(true); OnDrop(st.piece, true); yield return new WaitForSeconds(0.2f); continue; }
-                Vector3 a = piece.transform.localPosition, b = CellToWorld(st.from);
-                for (float k = 0; k < 1f; k += Time.deltaTime / 0.15f)
-                {
-                    piece.transform.localPosition = Vector3.Lerp(a, b, k);
-                    yield return null;
-                }
-                Lift(st.piece);
-                Put(st.piece, st.from);
+                yield return ScriptedDrag(st.piece, st.from, 0.25f, null);
                 OnDrop(st.piece);
             }
             for (float t = 0; t < 60f && playing; t += Time.deltaTime) yield return null;
+        }
+
+        // A drag played by code, with the same lift / hold / land as a finger. `shot` (testing) gets the phase names.
+        IEnumerator ScriptedDrag(int i, Vector2Int to, float dur, Action<string> shot)
+        {
+            var piece = pieces[i];
+            Vector3 a = piece.transform.localPosition, b = CellToWorld(to);
+            piece.SetDragging(true);
+            Sfx("block_pick", 0.5f);
+            for (float k = 0; k < 1f; k += Time.deltaTime / dur)
+            {
+                piece.Hold(Vector3.Lerp(a, b, Mathf.SmoothStep(0f, 1f, k)));
+                if (shot != null && k > 0.45f) { shot("mid"); shot = s => { }; }
+                yield return null;
+            }
+            for (float t = 0; t < 0.05f; t += Time.deltaTime) { piece.Hold(b); yield return null; }
+            var held = piece.HeldBase;
+            Lift(i);
+            Put(i, to);
+            piece.Land(held);
+            Sfx("drop", 0.75f);
+        }
+
+        // -drag: one drag of level 1 filmed in phases (lift, mid-drag, landing, settled) for checking the motion.
+        IEnumerator FilmDrag(string dir)
+        {
+            LoadLevel(0);
+            introPanel.SetActive(false);
+            yield return new WaitForSeconds(1.2f);
+            var st = scrambleSteps[scrambleSteps.Count - 1];
+            var piece = pieces[st.piece];
+            piece.SetDragging(true);
+            yield return new WaitForSeconds(0.1f);
+            ScreenCapture.CaptureScreenshot(System.IO.Path.Combine(dir, "shot_drag_lift.png"));
+            yield return new WaitForSeconds(0.2f);
+            yield return ScriptedDrag(st.piece, st.from, 0.5f, n => ScreenCapture.CaptureScreenshot(System.IO.Path.Combine(dir, "shot_drag_" + n + ".png")));
+            yield return new WaitForSeconds(0.05f);
+            ScreenCapture.CaptureScreenshot(System.IO.Path.Combine(dir, "shot_drag_land.png"));
+            OnDrop(st.piece);
+            yield return new WaitForSeconds(0.6f);
+            ScreenCapture.CaptureScreenshot(System.IO.Path.Combine(dir, "shot_drag_end.png"));
+            yield return new WaitForSeconds(0.5f);
+            Application.Quit();
         }
 
         // Run the player with -autotest: solves every level and saves screenshots next to the exe.
@@ -1236,6 +1321,7 @@ namespace CatPipe
             autotest = true; // don't save progress while testing
             string dir = System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath, ".."));
             var args = Environment.GetCommandLineArgs().ToList();
+            if (args.Contains("-drag")) { yield return FilmDrag(dir); yield break; }
             if (args.Contains("-front")) // loading + home screenshots only
             {
                 front.gameObject.SetActive(true);
@@ -1419,7 +1505,7 @@ namespace CatPipe
             {
                 if (!earned[k]) continue;
                 yield return new WaitForSeconds(0.15f);
-                Sfx("click", 0.9f, 0f); // short tick per star (the long key clip overlapped itself)
+                SfxAt("star", 0.75f, 1f + 0.12f * k); // a coin chime per star, each one higher
                 var rt = panelStars[k].rectTransform;
                 panelStars[k].sprite = sprStarOn;
                 for (float t = 0; t < 1f && panel.activeSelf; t += Time.deltaTime / 0.3f)

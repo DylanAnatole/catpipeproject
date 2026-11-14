@@ -295,3 +295,17 @@ R chơi lại · N màn sau · P màn trước · S tự giải
 - First set: moves 5/7/11/8/15/9/7/17/12/19 (1 and 10 easiest and hardest).
 - Going back: the previous 10 demo levels are in LevelArchive/levels_10_demo_v1 (copy them back into
   Assets/CatPipe/Resources/Levels). The code before this trial is git commit f9107ad5.
+
+## FEEL PASS: RAIL PATHS, BLOCK MOTION, SOUNDS (2026-11-14)
+- Path look: the row of dots is gone. Each path cell is a dark groove with a continuous rail inside (straight
+  strips plus a round joint, so corners read as one line). Idle rail: thin and faint. On a cat's route: thicker, the
+  cat's color, a soft glow, and a gleam running toward the hole (Piece.SetFlow / Update).
+- Block motion (Piece.SetDragging / Hold / Land): picked up, the block springs up (grows 7%, longer shadow, warm rim);
+  held, it follows the finger with frame-rate-independent smoothing and leans up to 6 degrees with its speed; released,
+  it glides into its cell with a small overshoot, then squashes with a puff of dust. Scale and lean pivot on the
+  block's center. AutoSolve / hint moves use the same motion (ScriptedDrag).
+- Sounds (new clips from the Catdom audio): cell_tick for each cell a dragged block crosses (pitch rises),
+  path_grow when a road gets longer, path_done when a road is complete, cat_whoosh at take-off, nest_in on landing,
+  vanish for each consumed block (staggered, rising), ice_crack when ice is gone, lock_open when a key opens locks,
+  star coin chimes on the win panel. Sounds play through a pool of 8 sources so pitches don't bend each other.
+- Autotest `-drag` films one drag of level 1 in phases (shot_drag_lift / mid / land / end).

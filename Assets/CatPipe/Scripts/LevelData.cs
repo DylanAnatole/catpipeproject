@@ -42,6 +42,7 @@ namespace CatPipe
         public string introIcon, introTitle, introText; // "New!" card shown when a level introduces a mechanic
         public string introFeat; // which mechanic the card's live demo shows (DemoStage script name)
         public int difficulty;                // 0 normal, 1 hard, 2 very hard, 3 super hard
+        public bool consume;    // the blocks a cat walks over vanish once it is home (the file then holds the start layout)
         public string rot;      // "piece:quarter-turns ..." start rotation of rotating blocks
         public int par, parTime; // stars: win in at most `par` moves / within `parTime` seconds
         public string start;    // "x,y x,y ..." start anchor of every piece (generator-measured difficulty)

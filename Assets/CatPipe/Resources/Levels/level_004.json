@@ -2,72 +2,60 @@
  "name": "Màn 4",
  "w": 5,
  "h": 5,
+ "consume": true,
  "pieces": [
   {
-   "at": "1,0",
+   "at": "0,2",
    "cells": "0,0",
-   "paths": "NE",
+   "paths": "NS"
+  },
+  {
+   "at": "2,1",
+   "cells": "0,1 0,0 1,0 2,0",
    "key": true
   },
   {
-   "at": "2,0",
-   "cells": "0,0 1,0 2,0"
-  },
-  {
-   "at": "0,4",
-   "cells": "0,0 1,0",
+   "at": "3,4",
+   "cells": "1,0 0,0",
    "lock": true
   },
   {
-   "at": "2,4",
-   "cells": "0,0",
-   "paths": "SW"
+   "at": "2,0",
+   "cells": "2,0 1,0 0,0"
   },
   {
-   "at": "0,0",
-   "cells": "0,0 0,1 0,2 1,2"
-  },
-  {
-   "at": "1,1",
-   "cells": "0,0 1,0 2,0"
-  },
-  {
-   "at": "4,1",
-   "cells": "0,0 0,1"
-  },
-  {
-   "at": "0,3",
-   "cells": "0,0 1,0 2,0"
+   "at": "1,2",
+   "cells": "0,0 0,1 1,1 0,2"
   }
  ],
  "cats": [
   {
-   "side": "T",
-   "index": 1,
+   "side": "B",
+   "index": 2,
    "color": 4
   },
   {
-   "side": "L",
+   "side": "R",
    "index": 4,
-   "color": 7
+   "color": 6
   }
  ],
  "nests": [
   {
    "side": "R",
-   "index": 0,
+   "index": 2,
    "color": 4
   },
   {
-   "side": "B",
-   "index": 2,
-   "color": 7
+   "side": "L",
+   "index": 4,
+   "color": 6
   }
  ],
  "hint": "Chìa và khóa",
  "hintIcon": "key",
- "start": "0,0 1,0 3,4 2,2 0,2 0,1 3,1 2,3",
- "solution": "1:2,0 0:1,0 6:4,1 5:1,1 4:0,0 2:0,4 7:0,3 3:2,4",
+ "start": "0,2 2,1 3,4 2,0 1,2",
+ "solution": "0:0,0 4:0,2 1:2,3 4:1,0 1:2,2 0:2,4 4:0,0 3:0,4",
  "time": 120,
  "par": 10,
  "parTime": 70

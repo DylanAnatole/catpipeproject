@@ -552,7 +552,241 @@ def pick_start(L, c, rng, focus):
     return L
 
 
+# ------------------------------------------------------------------ consume levels (2026-11-14 trial)
+# A block a cat walks over vanishes once the cat is home. The cats' routes overlap, so they can't all be built at
+# once: build one road, let the cat go (its blocks disappear), then build the next road from the blocks that are
+# left. The player has to plan the order AND keep enough of the right blocks for every road.
+# Internal numbers 201-210, saved as level_001..010. The old modes above are untouched.
+CONSUME = {
+    201: ("easy", []),
+    202: ("easy", ["rotate"]),
+    203: ("medium", ["ice"]),
+    204: ("easy", ["keylock"]),
+    205: ("hard", ["color", "oneway"]),
+    206: ("medium", ["fixed"]),
+    207: ("easy", ["mystery"]),
+    208: ("vhard", ["frozen", "axis"]),
+    209: ("medium", ["bomb", "keylock"]),
+    210: ("super", ["oneway", "rotate", "color"]),
+}
+CBANDS = {"easy": (5, 8), "medium": (9, 12), "hard": (13, 16), "vhard": (15, 18), "super": (17, 20)}
+
+
+def consume_config(n, rng):
+    t, feats = CONSUME[n]
+    diff = DIFF.get(t, 0)
+    c = dict(n=n, tier=t, feats=set(feats) | {"dead"}, diff=diff, target=CBANDS[t], use=0.6,
+             w=5, h=5 if t == "easy" else 6, cats=2 if t == "easy" else (rng.randint(2, 3) if t == "medium" else 3),
+             turns=(0, 2) if t == "easy" else (1, 3), overlap=1 if t == "easy" else 2,
+             crates=1 if t == "easy" else rng.randint(1, 2), decoys=rng.randint(0, 1), free_min=5 if t == "easy" else 4)
+    if n == 201: c["hint"], c["hint_icon"] = "Đường đi qua sẽ biến mất", "paw"
+    elif diff: c["hint"], c["hint_icon"] = DIFF_NAME[diff], ("map_hard" if diff == 1 else "bomb")
+    else: c["hint"], c["hint_icon"] = ICON[feats[0]][1], ICON[feats[0]][0]
+    return c
+
+
+def tile_route(r, rng):
+    """Blocks for one road on its own (roads of different cats never share a block here)."""
+    need = {x: m for x, m, _ in r}
+    cells = [x for x, _, _ in r]
+
+    def ok(chunk):
+        return is_shape(chunk) and all(derived_mask(set(chunk), x) == need[x] for x in chunk)
+
+    best = [(0, 0, [])] + [None] * len(cells)
+    for k in range(1, len(cells) + 1):
+        for Ln in (4, 3, 2, 1):
+            if Ln > k or best[k - Ln] is None: continue
+            if Ln > 1 and not ok(cells[k - Ln:k]): continue
+            s1, p1, cuts = best[k - Ln]
+            cand = (s1 + (Ln == 1), p1 + 1 + rng.random() * 0.3, cuts + [Ln])
+            if best[k] is None or cand[:2] < best[k][:2]: best[k] = cand
+    out, k = [], 0
+    for Ln in best[len(cells)][2]:
+        chunk = cells[k:k + Ln]
+        if Ln == 1:
+            y = chunk[0]
+            out.append(dict(at=f"{y[0]},{y[1]}", cells="0,0", paths=mask_str(need[y])))
+        else:
+            ax, ay = min(y[0] for y in chunk), min(y[1] for y in chunk)
+            out.append(dict(at=f"{ax},{ay}", cells=" ".join(f"{y[0]-ax},{y[1]-ay}" for y in chunk)))
+        k += Ln
+    return out, need, ok
+
+
+def build_consume(n, c, rng):
+    W, H, ncats = c["w"], c["h"], c["cats"]
+    colors = rng.sample(range(1, 10), ncats)
+    used_edges, cats, nests, routes = set(), [], [], []
+    for k in range(ncats):
+        for _ in range(200):
+            s_side = rng.choice("LRTB"); si = rng.randrange(H if s_side in "LR" else W)
+            n_side = rng.choice("LRTB"); ni = rng.randrange(H if n_side in "LR" else W)
+            if (s_side, si) in used_edges or (n_side, ni) in used_edges or s_side == n_side: continue
+            out_s, d_in = EDGE(s_side, si, W, H)
+            start = (out_s[0] + STEP[d_in][0], out_s[1] + STEP[d_in][1])
+            out_n, d_back = EDGE(n_side, ni, W, H)
+            end = (out_n[0] + STEP[d_back][0], out_n[1] + STEP[d_back][1])
+            r = make_route(start, d_in, end, opp(d_back), W, H, rng, c["turns"], set())
+            if not r or not 3 <= len(r) <= W + H: continue
+            used_edges |= {(s_side, si), (n_side, ni)}
+            cats.append(dict(side=s_side, index=si, color=colors[k]))
+            nests.append(dict(side=n_side, index=ni, color=colors[k]))
+            routes.append(r)
+            break
+        else:
+            return None
+    # roads must cross or share cells: they can't all stand at the same time
+    cellsets = [{x for x, _, _ in r} for r in routes]
+    overlap = sum(len(cellsets[a] & cellsets[b]) for a in range(ncats) for b in range(a + 1, ncats))
+    if overlap < c["overlap"]: return None
+
+    pieces, users, oks = [], [], []
+    for k, r in enumerate(routes):
+        ps, need, ok = tile_route(r, rng)
+        for p in ps: pieces.append(p); users.append(k)
+        oks.append((need, ok))
+    singles = sum(1 for p in pieces if p.get("paths"))
+    if singles > 1 + (c["diff"] > 0): return None
+
+    f = c["feats"]
+    route_pieces = list(range(len(pieces)))
+    rot_pieces = []
+    if "rotate" in f:  # a road cell of its own that turns (split one off a road block if needed)
+        want = 1 if c["diff"] < 2 else 2
+        for pi in rng.sample(route_pieces, len(route_pieces)):
+            if len(rot_pieces) >= want: break
+            p = pieces[pi]
+            need, ok = oks[users[pi]]
+            if p.get("paths"):
+                if need[abs_cells(p)[0]] != 15: p["rotate"] = True; rot_pieces.append(pi)
+                continue
+            cs = abs_cells(p)
+            for x in (cs[0], cs[-1]):
+                rest = [y for y in cs if y != x]
+                if len(rest) > 1 and not ok(rest): continue
+                if len(rest) == 1: pieces[pi] = dict(at=f"{rest[0][0]},{rest[0][1]}", cells="0,0", paths=mask_str(need[rest[0]]))
+                else:
+                    ax, ay = min(y[0] for y in rest), min(y[1] for y in rest)
+                    pieces[pi] = dict(at=f"{ax},{ay}", cells=" ".join(f"{y[0]-ax},{y[1]-ay}" for y in rest))
+                pieces.append(dict(at=f"{x[0]},{x[1]}", cells="0,0", paths=mask_str(need[x]), rotate=True))
+                users.append(users[pi]); rot_pieces.append(len(pieces) - 1)
+                break
+        if not rot_pieces: return None
+        route_pieces = list(range(len(pieces)))
+
+    excl = [pi for pi in route_pieces if not pieces[pi].get("rotate")]
+    rng.shuffle(excl)
+    pick = lambda k=1: [excl.pop() for _ in range(min(k, len(excl)))]
+    big = c["diff"] >= 2
+    if "color" in f:
+        for pi in pick(1 + big): pieces[pi]["color"] = colors[users[pi]]
+    if "ice" in f:
+        for pi in pick(1): pieces[pi]["ice"] = rng.randint(1, 2)
+    if "fixed" in f:
+        for pi in pick(1): pieces[pi]["fixed"] = True  # stays on its road spot: that cat must go before others pass
+    if "keylock" in f:
+        a, b = rng.sample(range(ncats), 2)
+        ka = [pi for pi in excl if users[pi] == a]; lb = [pi for pi in excl if users[pi] == b]
+        if not ka or not lb: return None
+        pieces[ka[0]]["key"] = True; pieces[lb[0]]["lock"] = True
+        excl.remove(ka[0]); excl.remove(lb[0])
+    if "oneway" in f:
+        for pi in excl[:]:
+            p = pieces[pi]
+            cs = abs_cells(p)
+            k = users[pi]
+            if p.get("paths") and (len(cs) > 1 or not straight(oks[k][0][cs[0]])): continue
+            seq = [x for x, _, _ in routes[k]]
+            last = max(cs, key=seq.index)
+            p["oneway"] = NESW[routes[k][seq.index(last)][2]]
+            excl.remove(pi)
+            break
+        else:
+            return None
+    if "bomb" in f:
+        for pi in pick(1): pieces[pi]["bomb"] = 60 + 15 * ncats
+
+    # a crate or two and maybe a decoy road: they take room, and decoys look like they could help
+    for _ in range(c["crates"]): pieces.append(dict(at="0,0", cells=rng.choice(CRATES)))
+    for _ in range(c["decoys"]): pieces.append(dict(at="0,0", cells=rng.choice(ROADS[8:])))
+    if "mystery" in f:
+        mov = [pi for pi in route_pieces if not any(pieces[pi].get(k) for k in ("fixed", "lock", "rotate"))]
+        if not mov: return None
+        hid = rng.sample(mov, 1)
+        size = len(pieces[hid[0]]["cells"].split())
+        others = [i for i in range(len(route_pieces), len(pieces)) if len(pieces[i]["cells"].split()) == size]
+        if not others:
+            others = [len(pieces)]; pieces.append(dict(at="0,0", cells=next(sh for sh in ROADS if len(sh.split()) == size)))
+        for pi in hid + others[:1]: pieces[pi]["mystery"] = True
+    if "axis" in f:
+        mov = [i for i, p in enumerate(pieces) if not p.get("fixed") and len(p["cells"].split()) > 1]
+        for pi in rng.sample(mov, min(len(mov), 1 + big)):
+            cs = parse(pieces[pi]["cells"])
+            pieces[pi]["axis"] = "H" if max(x for x, _ in cs) >= max(y for _, y in cs) else "V"
+    if "frozen" in f:
+        cats[rng.randrange(ncats)]["ice"] = 1
+
+    total = sum(len(p["cells"].split()) for p in pieces)
+    if total > W * H - c["free_min"]: return None
+    if len(pieces) > 16: return None
+    L = dict(name=f"Màn {n - 200}", w=W, h=H, consume=True, pieces=pieces, cats=cats, nests=nests)
+    if c["diff"]: L["difficulty"] = c["diff"]
+    L["hint"], L["hintIcon"] = c["hint"], c["hint_icon"]
+    return pick_start_consume(L, c, rng)
+
+
+def pick_start_consume(L, c, rng):
+    lo, hi = c["target"]
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as fh:
+        json.dump(L, fh, ensure_ascii=False)
+        path = fh.name
+    try:
+        out = subprocess.run([SOLVER, path, str(lo), str(hi), str(rng.randrange(1 << 30)), str(c["use"]),
+                              "3000000" if c["diff"] else "1500000"], capture_output=True, text=True, timeout=600).stdout
+    except subprocess.TimeoutExpired:
+        return None
+    finally:
+        os.remove(path)
+    try:
+        res = json.loads(out.strip().splitlines()[-1])
+    except (ValueError, IndexError):
+        return None
+    c["last"] = res
+    if not res.get("ok"): return None
+    starts = res["start"].split()
+    for p, a in zip(L["pieces"], starts): p["at"] = a  # no single solved layout: the file holds the start
+    L["start"], L["solution"] = res["start"], res["solution"]
+    if res.get("rot"): L["rot"] = res["rot"]
+    mv, ncat = res["moves"], len(all_cats(L))
+    L["time"] = min(300, max(60, int(round((40 + 8 * mv + 10 * ncat) / 10.0)) * 10))
+    L["par"] = mv + max(2, -(-mv // 4))
+    L["parTime"] = int(round(L["time"] * 0.6 / 10.0)) * 10
+    return L
+
+
+def main_consume(out, only):
+    for n in (only or sorted(CONSUME)):
+        rng = random.Random(7000 + n)
+        stats = []
+        for attempt in range(400):
+            c = consume_config(n, rng)
+            L = build_consume(n, c, rng)
+            if "last" in c: stats.append((c["last"].get("measured"), c["last"].get("solved"), c["last"].get("best")))
+            if L: break
+        else:
+            raise SystemExit(f"level {n}: no valid layout (solver tries: {stats[-10:]})")
+        with open(f"{out}/level_{n - 200:03}.json", "w", encoding="utf-8") as fh:
+            json.dump(L, fh, ensure_ascii=False, indent=1)
+        r = c["last"]
+        print(n, c["tier"], f"{L['w']}x{L['h']}", "cats", len(all_cats(L)), "pieces", len(L["pieces"]), "moves", r["moves"],
+              "used", f"{r['used']}/{r['movable']}", "time", L["time"], "secs", r["secs"], "measured", r["measured"],
+              "feats", ",".join(sorted(c["feats"])), "attempt", attempt, flush=True)
+
+
 def main(out):
+    if "--consume" in sys.argv:
+        return main_consume(out, [int(a) for a in sys.argv[2:] if a != "--consume"])
     demo = "--demo" in sys.argv  # the 10 demo levels (DEMO), saved as level_001..010
     only = [int(a) for a in sys.argv[2:] if a != "--demo"]
     for n in (only or (sorted(DEMO) if demo else range(1, LEVELS + 1))):

@@ -1,0 +1,76 @@
+{
+ "name": "Màn 1",
+ "w": 5,
+ "h": 5,
+ "pieces": [
+  {
+   "at": "2,4",
+   "cells": "2,0 1,0 0,0"
+  },
+  {
+   "at": "0,4",
+   "cells": "1,0 0,0"
+  },
+  {
+   "at": "4,2",
+   "cells": "0,0",
+   "paths": "NE",
+   "rotate": true
+  },
+  {
+   "at": "4,1",
+   "cells": "0,0",
+   "paths": "SW",
+   "rotate": true
+  },
+  {
+   "at": "2,1",
+   "cells": "1,0 0,0"
+  },
+  {
+   "at": "0,1",
+   "cells": "1,0 0,0"
+  },
+  {
+   "at": "2,0",
+   "cells": "0,0 1,0",
+   "paths": "- -"
+  },
+  {
+   "at": "0,2",
+   "cells": "0,0 1,0 2,0 0,1",
+   "paths": "- - - -"
+  }
+ ],
+ "cats": [
+  {
+   "side": "R",
+   "index": 4,
+   "color": 6
+  },
+  {
+   "side": "R",
+   "index": 2,
+   "color": 5
+  }
+ ],
+ "nests": [
+  {
+   "side": "L",
+   "index": 4,
+   "color": 6
+  },
+  {
+   "side": "L",
+   "index": 1,
+   "color": 5
+  }
+ ],
+ "hint": "Khối xoay",
+ "hintIcon": "ui_retry",
+ "start": "0,4 0,2 4,0 2,3 3,3 3,2 2,0 2,1",
+ "solution": "0:2,4 1:0,4 6:0,3 2:0,2 7:2,0 3:0,1 5:1,2 4:3,2",
+ "time": 120,
+ "par": 10,
+ "parTime": 70
+}

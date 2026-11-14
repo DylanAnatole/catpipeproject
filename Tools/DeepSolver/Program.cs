@@ -28,6 +28,7 @@ static class P
     static Dictionary<(int, int), (int k, int color)> nests = new();
     static int[] walls = Array.Empty<int>(), holes = Array.Empty<int>();
     static int maxIce, nRot;
+    static bool consume; // "consume" levels: the blocks a cat walks over vanish once it is home
     static int curRots; // rotation state used by Route/Flood (2 bits per rotatable piece = quarter turns clockwise)
     static int Rotl(int m, int q) { for (; q > 0; q--) m = ((m << 1) | (m >> 3)) & 15; return m; }
     static int Mask(Pc p, int ci) => p.rotIdx < 0 ? p.masks[ci] : Rotl(p.masks[ci], curRots >> (2 * p.rotIdx) & 3);
@@ -59,6 +60,7 @@ static class P
     static void Load(JsonNode L)
     {
         W = (int)L["w"]!; H = (int)L["h"]!; N = W * H;
+        consume = (bool?)L["consume"] ?? false;
         if (N > 64) throw new Exception("board too big");
         walls = ((string?)L["walls"] ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => { var (x, y) = XY(s); return y * W + x; }).ToArray();
         var pl = new List<Pc>();
@@ -159,14 +161,18 @@ static class P
     };
 
     // ------------------------------------------------------------ board
-    static int[] Occ(byte[] an, int done)
+    static int[] Occ(byte[] an, int done, int gone = 0)
     {
         var g = new int[N];
         Array.Fill(g, -1);
         foreach (var c in walls) g[c] = -2;
         foreach (var c in holes) g[c] = -4;
         for (int k = 0; k < cats.Length; k++) if (cats[k].cell >= 0 && (done >> k & 1) == 0) g[cats[k].cell] = -3;
-        for (int i = 0; i < pcs.Length; i++) { var f = pcs[i].fit[an[i]]!; for (int k = 0; k < f.Length; k++) g[f[k]] = i * 8 + k; }
+        for (int i = 0; i < pcs.Length; i++)
+        {
+            if ((gone >> i & 1) != 0) continue; // consumed: no longer on the board
+            var f = pcs[i].fit[an[i]]!; for (int k = 0; k < f.Length; k++) g[f[k]] = i * 8 + k;
+        }
         return g;
     }
 
@@ -203,7 +209,8 @@ static class P
     static readonly HashSet<(int, int, bool, ulong)> rseen = new();
     static readonly Queue<(int x, int y, int d, bool key, ulong vis)> rq = new();
 
-    static (int nest, bool key)? Route(int[] g, CatD cat, bool keys, int iceGone, int taken)
+    // Returns the hole, whether a key was picked up, and the cells of the route (as a bit set).
+    static (int nest, bool key, ulong cells)? Route(int[] g, CatD cat, bool keys, int iceGone, int taken)
     {
         rseen.Clear(); rq.Clear();
         for (int s = 0; s < cat.sx.Length; s++) rq.Enqueue((cat.sx[s], cat.sy[s], cat.sd[s], keys, cat.vis));
@@ -214,7 +221,7 @@ static class P
             bool inside = x >= 0 && y >= 0 && x < W && y < H;
             if (!inside || g[y * W + x] == -4)
             {
-                if (nests.TryGetValue((x, y), out var n) && n.color == cat.color && (taken >> n.k & 1) == 0) return (n.k, key);
+                if (nests.TryGetValue((x, y), out var n) && n.color == cat.color && (taken >> n.k & 1) == 0) return (n.k, key, vis & ~cat.vis);
                 continue;
             }
             int cell = y * W + x;
@@ -275,7 +282,12 @@ static class P
         if (y < H - 1) mark[c + W] = true;
     }
 
-    static (int done, int taken, bool keys) Deliver(int[] g, int done, int taken, bool keys, int moves)
+    static (int done, int taken, bool keys) Deliver(int[] g, int done, int taken, bool keys, int moves) =>
+        Deliver(g, done, taken, keys, moves, ref dummyGone);
+    static int dummyGone;
+
+    // Sends home every cat that can go, in order. On consume levels the blocks of each route vanish (gone).
+    static (int done, int taken, bool keys) Deliver(int[] g, int done, int taken, bool keys, int moves, ref int gone)
     {
         bool progress = true;
         while (progress)
@@ -288,6 +300,13 @@ static class P
                 if (r == null) continue;
                 done |= 1 << k; taken |= 1 << r.Value.nest; keys = keys || r.Value.key;
                 if (cats[k].cell >= 0) g[cats[k].cell] = -1; // its cell is free now
+                if (consume)
+                {
+                    int used = 0;
+                    for (int c = 0; c < N; c++) if ((r.Value.cells >> c & 1) != 0 && g[c] >= 0) used |= 1 << (g[c] / 8);
+                    gone |= used;
+                    for (int c = 0; c < N; c++) if (g[c] >= 0 && (used >> (g[c] / 8) & 1) != 0) g[c] = -1;
+                }
                 progress = true;
                 break;
             }
@@ -296,19 +315,23 @@ static class P
     }
 
     // ------------------------------------------------------------ keys
-    record struct K(ulong a, ulong b, ulong c, ulong d);
+    record struct K(ulong a, ulong b, ulong c, ulong d, uint e);
 
-    static K Pack(byte[] an, int done = 0, int taken = 0, bool keys = false, int moves = 0, int rots = 0)
+    static K Pack(byte[] an, int done = 0, int taken = 0, bool keys = false, int moves = 0, int rots = 0, int gone = 0)
     {
         Span<ulong> u = stackalloc ulong[4];
-        for (int i = 0; i < an.Length; i++) { int bit = i * 6; u[bit / 64] |= (ulong)an[i] << (bit % 64); if (bit % 64 > 58) u[bit / 64 + 1] |= (ulong)an[i] >> (64 - bit % 64); }
+        for (int i = 0; i < an.Length; i++)
+        {
+            if ((gone >> i & 1) != 0) continue; // a consumed block's anchor no longer matters
+            int bit = i * 6; u[bit / 64] |= (ulong)an[i] << (bit % 64); if (bit % 64 > 58) u[bit / 64 + 1] |= (ulong)an[i] >> (64 - bit % 64);
+        }
         u[3] |= (uint)rots; // anchors fill at most 192 bits (32 pieces)
         u[3] |= (ulong)done << 32 | (ulong)taken << 44 | (keys ? 1UL << 56 : 0) | (ulong)Math.Min(moves, maxIce) << 57;
-        return new K(u[0], u[1], u[2], u[3]);
+        return new K(u[0], u[1], u[2], u[3], (uint)gone);
     }
 
     // ------------------------------------------------------------ search
-    class St { public byte[] an = null!; public int done, taken, moves, parent, piece, to, rots; public bool keys; } // to = -1: a tap (rotate)
+    class St { public byte[] an = null!; public int done, taken, moves, parent, piece, to, rots, gone; public bool keys; } // to = -1: a tap (rotate)
 
     // Rotations after one more clockwise tap of piece p (wraps at its period).
     static int TapRot(int rots, Pc p, int dir = 1)
@@ -323,10 +346,11 @@ static class P
         int all = (1 << cats.Length) - 1;
         curRots = rots0;
         var g0 = Occ(start, 0);
-        var (d0, t0, k0) = Deliver(g0, 0, 0, false, 0);
+        int gone0 = 0;
+        var (d0, t0, k0) = Deliver(g0, 0, 0, false, 0, ref gone0);
         if (d0 == all) return new();
-        var states = new List<St> { new St { an = start, rots = rots0, done = d0, taken = t0, keys = k0, parent = -1 } };
-        var seen = new HashSet<K> { Pack(start, d0, t0, k0, 0, rots0) };
+        var states = new List<St> { new St { an = start, rots = rots0, done = d0, taken = t0, keys = k0, gone = gone0, parent = -1 } };
+        var seen = new HashSet<K> { Pack(start, d0, t0, k0, 0, rots0, gone0) };
         int head = 0;
         var mark = new bool[N];
         while (head < states.Count)
@@ -334,20 +358,21 @@ static class P
             var s = states[head];
             if (s.moves >= maxDepth) break;
             curRots = s.rots;
-            var g = Occ(s.an, s.done);
+            var g = Occ(s.an, s.done, s.gone);
             Array.Clear(mark);
             for (int k = 0; k < cats.Length; k++) if ((s.done >> k & 1) == 0) Flood(g, cats[k], s.moves, mark);
             bool melts = pcs.Any(p => p.ice == s.moves + 1);
             for (int i = 0; i < pcs.Length; i++)
             {
                 var p = pcs[i];
+                if ((s.gone >> i & 1) != 0) continue;
                 if (!p.movable || p.ice > s.moves || (p.lck && !s.keys)) continue;
                 var targets = Reach(g, s.an, i).ToList();
                 if (p.rotIdx >= 0 && p.period > 1) targets.Add(-1); // a tap turns it a quarter clockwise
                 foreach (var b in targets)
                 {
                     var an2 = s.an; int r2 = s.rots;
-                    int d2 = s.done, t2 = s.taken; bool k2 = s.keys;
+                    int d2 = s.done, t2 = s.taken, gone2 = s.gone; bool k2 = s.keys;
                     var g2 = g;
                     bool recheck;
                     if (b < 0)
@@ -371,11 +396,11 @@ static class P
                     {
                         if (b < 0) g2 = (int[])g.Clone();
                         curRots = r2;
-                        (d2, t2, k2) = Deliver(g2, s.done, s.taken, s.keys, s.moves + 1);
+                        (d2, t2, k2) = Deliver(g2, s.done, s.taken, s.keys, s.moves + 1, ref gone2);
                         curRots = s.rots;
                     }
-                    if (!seen.Add(Pack(an2, d2, t2, k2, s.moves + 1, r2))) continue;
-                    states.Add(new St { an = an2, rots = r2, done = d2, taken = t2, keys = k2, moves = s.moves + 1, parent = head, piece = i, to = b });
+                    if (!seen.Add(Pack(an2, d2, t2, k2, s.moves + 1, r2, gone2))) continue;
+                    states.Add(new St { an = an2, rots = r2, done = d2, taken = t2, keys = k2, gone = gone2, moves = s.moves + 1, parent = head, piece = i, to = b });
                     if (d2 == all)
                     {
                         var path = new List<(int, int)>();
@@ -438,6 +463,7 @@ static class P
         double minUse = args.Length > 4 ? double.Parse(args[4], System.Globalization.CultureInfo.InvariantCulture) : 0;
         int cap = args.Length > 5 ? int.Parse(args[5]) : 3000000;
         Load(L);
+        if (consume) return ConsumeMain(L, lo, hi, rng, minUse, cap);
         var solved = L["pieces"]!.AsArray().Select(p => { var (x, y) = XY((string)p!["at"]!); return (byte)(y * W + x); }).ToArray();
         var comp = Component(solved, cap);
         int maxDist = comp.Values.Max(v => v.dist);
@@ -469,6 +495,73 @@ static class P
             break;
         }
         o["measured"] = measured; o["best"] = bestMoves; o["secs"] = Math.Round(sw.Elapsed.TotalSeconds, 1);
+        Console.WriteLine(o.ToJsonString());
+        return 0;
+    }
+
+    // ------------------------------------------------------------ consume levels
+    // The routes of the cats overlap, so there is no single solved layout: the blocks are dropped at random free
+    // spots (fixed blocks stay where the file puts them) and each layout is played with the exact solver.
+    static byte[]? RandomLayout(Random rng, JsonNode L)
+    {
+        var g = Occ(new byte[pcs.Length], 0, -1); // walls, holes and cats only
+        var an = new byte[pcs.Length];
+        var order = Enumerable.Range(0, pcs.Length).OrderBy(i => pcs[i].movable ? 1 : 0).ThenBy(_ => rng.Next()).ToList();
+        foreach (int i in order)
+        {
+            var p = pcs[i];
+            var opts = new List<int>();
+            if (!p.movable)
+            {
+                var (x, y) = XY((string)L["pieces"]![i]!["at"]!); opts.Add(y * W + x);
+            }
+            else
+                for (int a = 0; a < N; a++) if (p.fit[a] != null) opts.Add(a);
+            opts = opts.Where(a => p.fit[a] != null && p.fit[a]!.All(c => g[c] == -1)).ToList();
+            if (opts.Count == 0) return null;
+            int pick = opts[rng.Next(opts.Count)];
+            an[i] = (byte)pick;
+            var f = p.fit[pick]!;
+            for (int k = 0; k < f.Length; k++) g[f[k]] = i * 8 + k;
+        }
+        return an;
+    }
+
+    static int ConsumeMain(JsonNode L, int lo, int hi, Random rng, double minUse, int cap)
+    {
+        int movable = pcs.Count(p => p.movable);
+        var o = new JsonObject { ["ok"] = false };
+        int measured = 0, tried = 0, solved = 0, bestMoves = 0;
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        while (sw.Elapsed.TotalSeconds < 240 && measured < 400)
+        {
+            tried++;
+            var an = RandomLayout(rng, L);
+            if (an == null) { if (tried > 2000 && measured == 0) break; continue; }
+            int rots = 0;
+            for (int i = 0; i < pcs.Length; i++)
+                if (pcs[i].rotIdx >= 0 && pcs[i].period > 1) rots |= rng.Next(pcs[i].period) << 2 * pcs[i].rotIdx;
+            curRots = rots;
+            var g = Occ(an, 0);
+            int gone = 0;
+            if (Deliver(g, 0, 0, false, 0, ref gone).done != 0) continue; // a cat could walk home right away
+            measured++;
+            var path = Solve(an, rots, hi, cap);
+            if (path == null) continue;
+            solved++;
+            bestMoves = Math.Max(bestMoves, path.Count);
+            if (path.Count < lo) continue;
+            int used = path.Select(m => m.piece).Distinct().Count();
+            if (used < minUse * movable) continue;
+            o["ok"] = true;
+            o["start"] = string.Join(" ", an.Select(a => $"{a % W},{a / W}"));
+            o["solution"] = string.Join(" ", path.Select(m => m.to < 0 ? $"{m.piece}:R" : $"{m.piece}:{m.to % W},{m.to / W}"));
+            o["rot"] = string.Join(" ", Enumerable.Range(0, pcs.Length).Where(i => pcs[i].rotIdx >= 0 && (rots >> 2 * pcs[i].rotIdx & 3) != 0)
+                .Select(i => $"{i}:{rots >> 2 * pcs[i].rotIdx & 3}"));
+            o["moves"] = path.Count; o["used"] = used; o["movable"] = movable; o["comp"] = 0; o["dist"] = 0;
+            break;
+        }
+        o["measured"] = measured; o["solved"] = solved; o["best"] = bestMoves; o["secs"] = Math.Round(sw.Elapsed.TotalSeconds, 1);
         Console.WriteLine(o.ToJsonString());
         return 0;
     }

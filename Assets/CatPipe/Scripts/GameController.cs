@@ -192,6 +192,7 @@ namespace CatPipe
             levelIndex = ((idx % levels.Length) + levels.Length) % levels.Length;
             var L = JsonUtility.FromJson<LevelJson>(levels[levelIndex].text);
             w = L.w; h = L.h;
+            consumeLevel = L.consume;
             timeLeft = timeTotal = L.time > 0 ? L.time : 120;
             curPar = L.par; curParTime = L.parTime;
             hintText.text = levelHint = string.IsNullOrEmpty(L.hint) ? "Kéo khối" : L.hint;
@@ -1035,6 +1036,7 @@ namespace CatPipe
             }
             cat.tr.position = pos;
             cat.anim.Skeleton.ScaleX = 1f;
+            if (consumeLevel) ConsumeRoute(t);
             for (float k = 0; k < 1f; k += Time.deltaTime / 0.22f) // landing squash
             {
                 float sq = Mathf.Sin(k * Mathf.PI) * 0.22f;
@@ -1057,6 +1059,44 @@ namespace CatPipe
             Play(cat, "select_to_sit", false, "front_idle1");
             for (int k = 0; k < 7; k++) StartCoroutine(Sparkle(t.nest.tr.position, k * Mathf.PI * 2f / 7f));
             StartCoroutine(Praise());
+        }
+
+        // Consume levels: every block the cat walked over vanishes once it is home, freeing its cells
+        // (same rule as Tools/DeepSolver: the next cats only have the blocks that are left).
+        bool consumeLevel;
+
+        void ConsumeRoute(Trace t)
+        {
+            var used = new HashSet<int>();
+            foreach (var c in t.cells) { int i = occ[c.x, c.y]; if (i >= 0) used.Add(i); }
+            foreach (int i in used)
+            {
+                Lift(i);
+                StartCoroutine(Vanish(pieces[i]));
+            }
+            if (used.Count > 0) Sfx("block_pick", 0.6f);
+        }
+
+        IEnumerator Vanish(Piece p)
+        {
+            var a = p.transform.localPosition;
+            var center = a;
+            if (p.offs.Length > 0)
+            {
+                var sum = Vector3.zero;
+                foreach (var o in p.offs) sum += CellToWorld(p.anchor + o);
+                center = sum / p.offs.Length;
+            }
+            for (int k = 0; k < 4; k++) StartCoroutine(Sparkle(center, k * Mathf.PI / 2f + 0.4f));
+            var s0 = p.transform.localScale;
+            for (float k = 0; k < 1f; k += Time.deltaTime / 0.35f)
+            {
+                float s = 1f - k * k;
+                p.transform.localScale = s0 * s;
+                p.transform.localPosition = center + (a - center) * s;
+                yield return null;
+            }
+            p.gameObject.SetActive(false);
         }
 
         // Faint paw print left on the path, fading away.

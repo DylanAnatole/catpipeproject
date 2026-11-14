@@ -278,3 +278,20 @@ R chơi lại · N màn sau · P màn trước · S tự giải
   (outside Assets, so it is not built) and in the democatpipe repo under level_archive/levels_100_v5/. To use it
   again, copy the files back into Assets/CatPipe/Resources/Levels.
 - The intro popup and DemoStage code stay in place; they are unused while no level has introFeat.
+
+## CONSUME TRIAL: ROADS VANISH (2026-11-14)
+- New rule, per level (`"consume": true` in the level JSON): once a cat is home, every block it walked over vanishes
+  (GameController.ConsumeRoute + Vanish). The cats' roads overlap, so they can't all stand at once: build one road,
+  let that cat go, then build the next road from the blocks that are left. The player has to plan the order and keep
+  enough of the right blocks. Levels without the flag play exactly as before.
+- DeepSolver: Route returns the route's cells, and Deliver removes those blocks (`gone` bit set in the state key).
+  Consume levels have no single solved layout. ConsumeMain drops the blocks at random free spots (fixed blocks stay at
+  "at"), skips layouts where a cat goes home at once, solves each exactly, and keeps one whose fewest moves fall in
+  the band.
+- Generator: `python Tools/gen_levels.py <out> --consume` writes the CONSUME set (201-210 -> level_001..010).
+  It uses its own road tiling (one road per cat, never shared), roads must overlap (1 cell on easy, 2 otherwise),
+  1-2 crates and maybe a decoy, and the same mechanics as before (rotate, ice, keylock, color, oneway, fixed, mystery,
+  frozen, axis, bomb). In the file, "at" = "start" (the start layout).
+- First set: moves 5/7/11/8/15/9/7/17/12/19 (1 and 10 easiest and hardest).
+- Going back: the previous 10 demo levels are in LevelArchive/levels_10_demo_v1 (copy them back into
+  Assets/CatPipe/Resources/Levels). The code before this trial is git commit f9107ad5.

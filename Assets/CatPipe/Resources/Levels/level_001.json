@@ -2,75 +2,58 @@
  "name": "Màn 1",
  "w": 5,
  "h": 5,
+ "consume": true,
  "pieces": [
   {
-   "at": "2,4",
-   "cells": "2,0 1,0 0,0"
-  },
-  {
-   "at": "0,4",
+   "at": "1,1",
    "cells": "1,0 0,0"
   },
   {
-   "at": "4,2",
-   "cells": "0,0",
-   "paths": "NE",
-   "rotate": true
+   "at": "1,2",
+   "cells": "1,0 0,0 0,1"
   },
   {
-   "at": "4,1",
-   "cells": "0,0",
-   "paths": "SW",
-   "rotate": true
+   "at": "0,0",
+   "cells": "0,0 0,1 0,2"
   },
   {
-   "at": "2,1",
-   "cells": "1,0 0,0"
+   "at": "3,1",
+   "cells": "0,0 0,1 0,2 1,2"
   },
   {
-   "at": "0,1",
-   "cells": "1,0 0,0"
-  },
-  {
-   "at": "2,0",
-   "cells": "0,0 1,0",
-   "paths": "- -"
-  },
-  {
-   "at": "0,2",
-   "cells": "0,0 1,0 2,0 0,1",
-   "paths": "- - - -"
+   "at": "1,3",
+   "cells": "1,0 0,1 1,1 2,1"
   }
  ],
  "cats": [
   {
    "side": "R",
-   "index": 4,
-   "color": 6
+   "index": 0,
+   "color": 5
   },
   {
-   "side": "R",
-   "index": 2,
-   "color": 5
+   "side": "T",
+   "index": 3,
+   "color": 8
   }
  ],
  "nests": [
   {
-   "side": "L",
-   "index": 4,
-   "color": 6
-  },
-  {
-   "side": "L",
+   "side": "B",
    "index": 1,
    "color": 5
+  },
+  {
+   "side": "R",
+   "index": 2,
+   "color": 8
   }
  ],
- "hint": "Khối xoay",
- "hintIcon": "ui_retry",
- "start": "0,4 0,2 4,0 2,3 3,3 3,2 2,0 2,1",
- "solution": "0:2,4 1:0,4 6:0,3 2:0,2 7:2,0 3:0,1 5:1,2 4:3,2",
- "time": 120,
- "par": 10,
- "parTime": 70
+ "hint": "Đường đi qua sẽ biến mất",
+ "hintIcon": "paw",
+ "start": "1,1 1,2 0,0 3,1 1,3",
+ "solution": "3:3,0 0:3,0 1:1,0 4:2,3 2:1,2",
+ "time": 100,
+ "par": 7,
+ "parTime": 60
 }

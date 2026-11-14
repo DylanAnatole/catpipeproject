@@ -1279,11 +1279,27 @@ namespace CatPipe
         {
             var piece = pieces[i];
             Vector3 a = piece.transform.localPosition, b = CellToWorld(to);
+            var o = piece.offs[0];
+            if (demoHand) // tutorial video: the hand presses the block first, then drags it
+            {
+                if (!hand)
+                {
+                    hand = SkeletonAnimation.NewSkeletonAnimationGameObject(handData);
+                    hand.name = "TutorialHand";
+                    hand.transform.localScale = Vector3.one * 0.32f;
+                    hand.GetComponent<MeshRenderer>().sortingOrder = 200;
+                }
+                hand.gameObject.SetActive(true);
+                hand.transform.position = piece.transform.TransformPoint(new Vector3(o.x, -o.y));
+                hand.AnimationState.SetAnimation(0, "click", false);
+                yield return new WaitForSeconds(0.3f);
+            }
             piece.SetDragging(true);
             Sfx("block_pick", 0.5f);
             for (float k = 0; k < 1f; k += Time.deltaTime / dur)
             {
                 piece.Hold(Vector3.Lerp(a, b, Mathf.SmoothStep(0f, 1f, k)));
+                if (demoHand) hand.transform.position = piece.transform.TransformPoint(new Vector3(o.x, -o.y));
                 if (shot != null && k > 0.45f) { shot("mid"); shot = s => { }; }
                 yield return null;
             }
@@ -1293,7 +1309,10 @@ namespace CatPipe
             Put(i, to);
             piece.Land(held);
             Sfx("drop", 0.75f);
+            if (demoHand) { yield return new WaitForSeconds(0.15f); hand.gameObject.SetActive(false); }
         }
+
+        bool demoHand; // autotest -record -hand: a hand drags the blocks (tutorial look)
 
         // -drag: one drag of level 1 filmed in phases (lift, mid-drag, landing, settled) for checking the motion.
         IEnumerator FilmDrag(string dir)
@@ -1411,6 +1430,7 @@ namespace CatPipe
             if (args.Contains("-record")) // demo video: every level solved at a viewer's pace, filmed with sound
             {
                 demoPace = true;
+                demoHand = args.Contains("-hand");
                 var rec = gameObject.AddComponent<DemoRecorder>();
                 rec.Begin(System.IO.Path.Combine(dir, "rec"));
                 // -levels 5,6,8 picks levels; otherwise the -from/-to range

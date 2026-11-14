@@ -1264,12 +1264,15 @@ namespace CatPipe
                 while (busy || pieces.Any(p => p.gate && !p.gateOpen)) yield return null; // the solver assumes gates are open, so move like a player who waits for them
                 var st = scrambleSteps[s];
                 var piece = pieces[st.piece];
-                if (st.rot) { piece.Rotate(true); OnDrop(st.piece, true); yield return new WaitForSeconds(0.2f); continue; }
-                yield return ScriptedDrag(st.piece, st.from, 0.25f, null);
+                if (demoPace) yield return new WaitForSeconds(0.2f); // demo video: a breath between moves
+                if (st.rot) { piece.Rotate(true); Sfx("block_turn", 0.8f); OnDrop(st.piece, true); yield return new WaitForSeconds(0.2f); continue; }
+                yield return ScriptedDrag(st.piece, st.from, demoPace ? 0.38f : 0.25f, null);
                 OnDrop(st.piece);
             }
             for (float t = 0; t < 60f && playing; t += Time.deltaTime) yield return null;
         }
+
+        bool demoPace; // autotest -record: slower, readable moves
 
         // A drag played by code, with the same lift / hold / land as a finger. `shot` (testing) gets the phase names.
         IEnumerator ScriptedDrag(int i, Vector2Int to, float dur, Action<string> shot)
@@ -1405,6 +1408,29 @@ namespace CatPipe
                 yield break;
             }
             int from = Mathf.Max(1, Arg("-from", 1)), to = Mathf.Min(levels.Length, Arg("-to", levels.Length)); // optional level range, 1-based
+            if (args.Contains("-record")) // demo video: every level solved at a viewer's pace, filmed with sound
+            {
+                demoPace = true;
+                var rec = gameObject.AddComponent<DemoRecorder>();
+                rec.Begin(System.IO.Path.Combine(dir, "rec"));
+                // -levels 5,6,8 picks levels; otherwise the -from/-to range
+                int li = args.IndexOf("-levels");
+                var list = li >= 0 && li + 1 < args.Count
+                    ? args[li + 1].Split(',').Select(s => int.Parse(s) - 1).ToList()
+                    : Enumerable.Range(from - 1, to - from + 1).ToList();
+                foreach (int i in list)
+                {
+                    LoadLevel(i);
+                    introPanel.SetActive(false);
+                    yield return new WaitForSeconds(1.2f); // a look at the board first
+                    yield return AutoSolve();
+                    yield return new WaitForSeconds(3.4f); // the win screen and its stars
+                    Debug.Log($"AUTOTEST level {i + 1}: {(!playing && panelIsWin ? "WIN" : "FAIL")}");
+                }
+                yield return rec.End();
+                Application.Quit();
+                yield break;
+            }
             for (int i = from - 1; i < to; i++)
             {
                 LoadLevel(i);
@@ -2093,6 +2119,9 @@ namespace CatPipe
             sendBtn = BoosterButton(bottom.transform, sprCatWin, "Về tổ", 430, () => SetPickCat(!pickCat));
             hintText.color = new Color(1f, 0.96f, 0.86f);
             hintText.horizontalOverflow = HorizontalWrapMode.Wrap;
+            hintText.resizeTextForBestFit = true; // a long hint shrinks (and wraps) instead of being cut off
+            hintText.resizeTextMinSize = 30; hintText.resizeTextMaxSize = 48;
+            hintText.lineSpacing = 0.9f;
             hintText.GetComponent<Outline>().effectColor = new Color(0.3f, 0.15f, 0.05f, 0.9f);
             var bannerImg = MakeImage(root, Load("ui_banner"), new Vector2(0.5f, 1), new Vector2(0, 200), new Vector2(1000, 142));
             bannerImg.raycastTarget = false;

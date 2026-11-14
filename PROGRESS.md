@@ -309,3 +309,7 @@ R chơi lại · N màn sau · P màn trước · S tự giải
   vanish for each consumed block (staggered, rising), ice_crack when ice is gone, lock_open when a key opens locks,
   star coin chimes on the win panel. Sounds play through a pool of 8 sources so pitches don't bend each other.
 - Autotest `-drag` films one drag of level 1 in phases (shot_drag_lift / mid / land / end).
+- 2026-11-14: bottom hint text shrinks and wraps when long (level 1's "Đường đi qua sẽ biến mất" was cut off).
+  Demo video: autotest `-record [-levels 5,6,8,9,10]` films in real time (DemoRecorder: JPG frames + time stamps +
+  the final audio mix as WAV) and `Tools/make_video.py <Build/rec> <out.mp4>` makes an MP4 with sound
+  (needs imageio + imageio-ffmpeg).
